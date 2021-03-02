@@ -1,5 +1,5 @@
 <?php
-// "{Base Price + (Price per page x # pages) + Lamentation + Binding} X # of copies }"
+// "{Base Price + (Price per page x # pages)*(spiral x Binding} X # of copies }"
 include_once('functions.php');
 // include_once('db_connection.php');
 
@@ -76,12 +76,12 @@ $qty = get('qty')
         <table class="table">
             <thead class="bg-dark text-white">
                 <tr>
-                    <th scope="col">size</th>
-                    <th scope="col">binding</th>
-                    <th scope="col">color</th>
-                    <th scope="col">laminat</th>
-                    <th scope="col">pages</th>
-                    <th scope="col">qty</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Price Actual</th>
+                    <th scope="col">Discount</th>
+                    <!-- <th scope="col">pages</th>
+                    <th scope="col">qty</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -91,8 +91,8 @@ $qty = get('qty')
                     <td><?php echo $binding; ?></td>
                     <td><?php echo $color; ?></td>
                     <td><?php echo $laminat; ?></td>
-                    <td><?php echo $pages; ?></td>
-                    <td><?php echo $qty; ?></td>
+                    <!-- <td><?php echo $pages; ?></td>
+                    <td><?php echo $qty; ?></td> -->
                 </tr>
                <?php } ?>
                 
