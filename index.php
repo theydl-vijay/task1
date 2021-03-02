@@ -1,35 +1,15 @@
 <?php
 // "{Base Price + (Price per page x # pages) + Lamentation + Binding} X # of copies }"
-// include_once('functions.php');
+include_once('functions.php');
 // include_once('db_connection.php');
 
+$size = get('size');
+$binding = get('binding');
+$color = get('color');
+$lamination = get('laminat');
+$pages = get('pages');
+$qty = get('qty')
 
-$db_connection = new mysqli('localhost','root','','db_book');
-
-if(isset($_POST['submit']))
-{
-    $size = $_POST['size'];
-    $binding = $_POST['binding'];
-    $color = $_POST['color'];
-    $laminat = $_POST['laminat'];
-    $pages = $_POST['pages'];
-    $qty = $_POST['qty'];
-
-if ($basePrice = $1.50) {
-    
-}
-
-    $insert = ("insert into book(size,binding,color,laminat,pages,qty)
-                values('$size','$binding','$color','$laminat','$pages','$qty')");
-
-    $query_run = mysqli_query($db_connection,$insert);
-}
-
-
-
-
-$select = "select  from book";
-$result = mysqli_query($db_connection, $select);
 
 ?>
 <!doctype html>
@@ -96,24 +76,17 @@ $result = mysqli_query($db_connection, $select);
         <table class="table">
             <thead class="bg-dark text-white">
                 <tr>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Price Actual</th>
-                    <th scope="col">Discount</th>
+                    <th scope="col">size</th>
+                    <th scope="col">binding</th>
+                    <th scope="col">color</th>
+                    <th scope="col">laminat</th>
+                    <th scope="col">pages</th>
+                    <th scope="col">qty</th>
                 </tr>
             </thead>
             <tbody>
-                <?php
-                while ($row = mysqli_fetch_array($result)) {
-                $id = $row['id'];
-                $size = $row['size'];
-                $binding = $row['binding'];
-                $color = $row['color'];
-                $laminat = $row['laminat'];
-                $pages = $row['pages'];
-                $qty = $row['qty'];
-                ?>
-                <tr>
+                <?php if (isset($_POST['submit'])) { ?>
+                   <tr>
                     <td><?php echo $size; ?></td>
                     <td><?php echo $binding; ?></td>
                     <td><?php echo $color; ?></td>
@@ -121,7 +94,8 @@ $result = mysqli_query($db_connection, $select);
                     <td><?php echo $pages; ?></td>
                     <td><?php echo $qty; ?></td>
                 </tr>
-                <?php } ?>
+               <?php } ?>
+                
             </tbody>
         </table>
     </div>
