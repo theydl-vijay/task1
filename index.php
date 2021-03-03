@@ -1,15 +1,24 @@
 <?php
 // "{Base Price + (Price per page x # pages)*(spiral x Binding} X # of copies }"
 include_once('functions.php');
-// include_once('db_connection.php');
 
 $size = get('size');
 $binding = get('binding');
 $color = get('color');
 $lamination = get('laminat');
 $pages = get('pages');
-$qty = get('qty')
+$qty = get('qty');
 
+
+
+echo (($size) + (($binding * $pages)*($color * $pages)) + ($lamination + $qty));
+
+// echo "$total";
+
+// $x = 515;
+// $y = 615;
+
+// echo $x + $y;
 
 ?>
 <!doctype html>
@@ -29,39 +38,39 @@ $qty = get('qty')
                     <div class="col-md-3">
                         <select class="form-select" name="size">
                             <option selected>Size</option>
-                            <option value="6x9">6x9</option>
-                            <option value="5.5x8.5">5.5x8.5</option>
-                            <option value="7.5x7.5">7.5x7.5</option>
-                            <option value="8.5x11">8.5x11</option>
+                            <option value="1.50">6x9</option>
+                            <option value="1.50">5.5x8.5</option>
+                            <option value="1.50">7.5x7.5</option>
+                            <option value="1.50">8.5x11</option>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <select class="form-select" name="binding">
                             <option selected>Binding</option>
-                            <option value="spiral">spiral</option>
-                            <option value="perfect">perfect</option>
+                            <option value="2.0">spiral</option>
+                            <option value="3.0">perfect</option>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <select class="form-select" name="color">
                             <option selected>Color</option>
-                            <option value="Black n White Interior / Color Cover">Black n White Interior / Color Cover</option>
-                            <option value="Full Color Interior / Color CoverFull Color Interior / Color Cover">Full Color Interior / Color Cover</option>
-                            <option value="Cream Color Interior / Color Cover">Cream Color Interior / Color Cover</option>
+                            <option value="0.032">Black n White Interior / Color Cover</option>
+                            <option value="0.040">Full Color Interior / Color Cover</option>
+                            <!-- <option value="Cream Color Interior / Color Cover">Cream Color Interior / Color Cover</option> -->
                         </select>
                     </div>
                     <div class="col-md-3">
                         <select class="form-select" name="laminat">
                             <option selected>Lamination</option>
-                            <option value="Glossy">Glossy</option>
-                            <option value="Matt">Matt</option>
+                            <option value="0.00">Glossy</option>
+                            <option value="0.00">Matt</option>
                         </select>
                     </div>
                 </div>
                 <div class="row py-4">
                     <div class="col-md-3">
                         <label>Pages</label>
-                        <input type="number" class="form-control" value="" name="pages">
+                        <input type="number" class="form-control" value="f" name="pages">
                     </div>
                     <div class="col-md-3">
                         <label>Qty</label>
@@ -72,16 +81,14 @@ $qty = get('qty')
             </div>
         </form>
     </div>
-    <div class="container">
+    <!-- <div class="container">
         <table class="table">
             <thead class="bg-dark text-white">
                 <tr>
-                    <th scope="col">Quantity</th>
+                    <th scope="col">Quanity</th>
                     <th scope="col">Price</th>
                     <th scope="col">Price Actual</th>
                     <th scope="col">Discount</th>
-                    <!-- <th scope="col">pages</th>
-                    <th scope="col">qty</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -90,15 +97,13 @@ $qty = get('qty')
                     <td><?php echo $size; ?></td>
                     <td><?php echo $binding; ?></td>
                     <td><?php echo $color; ?></td>
-                    <td><?php echo $laminat; ?></td>
-                    <!-- <td><?php echo $pages; ?></td>
-                    <td><?php echo $qty; ?></td> -->
+                    <td><?php echo $lamination; ?></td>
                 </tr>
                <?php } ?>
                 
             </tbody>
         </table>
-    </div>
+    </div> -->
     <!--Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     
