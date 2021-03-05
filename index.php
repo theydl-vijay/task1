@@ -21,28 +21,28 @@ if ($qty <= 49) {
 }
 elseif ($qty <= 99) {
     $discount = ($total - ($total * (10/100)));
-     $quanity = "50 - 99";
-     $discount_type = "10%";
+    $quanity = "50 - 99";
+    $discount_type = "10%";
 }
 elseif ($qty <= 249) {
     $discount = ($total - ($total * (15/100)));
-     $quanity = "100 - 249";
-     $discount_type = "15%";
+    $quanity = "100 - 249";
+    $discount_type = "15%";
 }
 elseif ($qty <= 499) {
     $discount = ($total - ($total * (20/100)));
-     $quanity = "250 - 499";
-     $discount_type = "20%";
+    $quanity = "250 - 499";
+    $discount_type = "20%";
 }
 elseif ($qty <= 999) {
     $discount = ($total - ($total * (25/100)));
-     $quanity = "50 - 999";
-     $discount_type = "25%";
+    $quanity = "500 - 999";
+    $discount_type = "25%";
 }
 elseif ($qty >= 1000) {
     $discount = ($total - ($total * (30/100)));
-     $quanity = "1000+";
-     $discount_type = "30%";
+    $quanity = "1000+";
+    $discount_type = "30%";
 }else{
     echo "-";
 }
@@ -66,43 +66,82 @@ elseif ($qty >= 1000) {
                     <div class="col-md-3">
                         <select class="form-select" name="size">
                             <option selected>Size</option>
-                            <option value="1.50" >6x9</option>
-                            <option value="1.50">5.5x8.5</option>
-                            <option value="1.50">7.5x7.5</option>
-                            <option value="1.50">8.5x11</option>
-                        </select>
+                            <?php 
+
+                                $book_size = array("7.5x7.5"=>"1.2","8.5x11"=>"1.2","5.5x8.5"=>"1.2","4.25x6.87"=>"1.2","5x8"=>"1.2","5.06x7.81"=>"1.2","5.25x8"=>"1.2","5.83x8.26"=>"1.2","6.13x9.21"=>"1.2","6.625x10.25"=>"1.2","6.69x9.61"=>"1.2","7.44x9.68"=>"1.2","7.5x9.25"=>"1.2","7x10"=>"1.2","8x10"=>"1.2","8.25x6"=>"1.2","8.25x8.25"=>"1.2","8.25x11"=>"1.2","8.27x11.69"=>"1.2","8.5x8.5"=>"1.2");
+                                foreach ($book_size as $bs => $size_price) {
+
+                            ?>
+                            <option value="<?php echo $size_price; ?>" <?php echo (isset($_POST['size']) && $_POST['size'] == '') ? 'selected' : ''; ?>><?php echo $bs; ?></option>
+
+                            <?php
+                                } 
+                            ?>
+
+                    </select>
                     </div>
                     <div class="col-md-3">
                         <select class="form-select" name="binding">
                             <option selected>Binding</option>
-                            <option value="2.0">spiral</option>
-                            <option value="3.0">perfect</option>
+
+                            <?php
+
+                                $binding_type = array("spiral"=>"3.0","perfect"=>"2.0");
+                                foreach ($binding_type as $bt => $binding_price) {
+                            ?>
+
+                            <option value="<?php echo $binding_price; ?>" <?php echo (isset($_POST['binding']) && $_POST['binding'] == '') ? 'selected' : ''; ?>><?php echo $bt; ?></option>
+
+                             <?php
+                                } 
+                            ?>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <select class="form-select" name="color">
                             <option selected>Color</option>
-                            <option value="0.032">Black n White Interior / Color Cover</option>
-                            <option value="0.040">Full Color Interior / Color Cover</option>
-                            <!-- <option value="Cream Color Interior / Color Cover">Cream Color Interior / Color Cover</option> -->
+
+                            <?php
+
+                                $color_type = array("Black n White Interior / Color Cover"=>"0.032","Full Color Interior / Color Cover"=>"0.040","Cream Color Interior / Color Cover"=>"0.040");
+                                foreach ($color_type as $ct => $color_price) {
+                            ?>
+
+                            <option value="<?php echo $color_price; ?>" <?php echo (isset($_POST['color']) && $_POST['color'] == '') ? 'selected' : ''; ?>><?php echo $ct; ?></option>
+                           
+                            <?php
+                                } 
+                            ?>
+
                         </select>
                     </div>
                     <div class="col-md-3">
                         <select class="form-select" name="laminat">
                             <option selected>Lamination</option>
-                            <option value="0.00">Glossy</option>
-                            <option value="0.00">Matt</option>
+
+                             <?php
+
+                                $lamination_type = array("Glossy"=>"0.032","Full Color Interior / Color Cover"=>"0.040","Matt"=>"0.040");
+                                foreach ($lamination_type as $lt => $laminet_price) {
+                            ?>
+
+                            <option value="<?php echo $laminet_price; ?>" <?php echo (isset($_POST['laminat']) && $_POST['laminat'] == '') ? 'selected' : ''; ?>><?php echo $lt; ?></option>
+
+                            <?php
+                                } 
+                            ?>
+
                         </select>
                     </div>
                 </div>
                 <div class="row py-4">
                     <div class="col-md-3">
                         <label>Pages</label>
-                        <input type="number" class="form-control" value="f" name="pages">
+                        <input type="number" class="form-control" value="<?php echo $pages ?>" <?php echo (isset($_POST['pages']) && $_POST['pages'] == 'pages') ? 'selected' : ''; ?> name="pages">
                     </div>
                     <div class="col-md-3">
                         <label>Qty</label>
-                        <input type="number" class="form-control" value="" name="qty">
+                        <input type="number" class="form-control" value="<?php echo $qty ?>" <?php echo (isset($_POST['qty']) && $_POST['qty'] == 'qty') ? 'selected' : ''; ?> name="qty">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
