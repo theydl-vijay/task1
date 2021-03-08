@@ -1,8 +1,11 @@
 <?php
 // "{Base Price + (Price per page x # pages)*(spiral x Binding} X # of copies }"
 include_once('functions.php');
+// error_reporting(0);
 
-error_reporting(0);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 $size = get('size');
 $binding = get('binding');
@@ -11,8 +14,20 @@ $lamination = get('laminat');
 $pages = get('pages');
 $qty = get('qty');
 
-$total = (($size) + (($binding * $pages)*($color * $pages)) + ($lamination + $qty));
+for ($size=$book_size;) { 
+    $book_size = array("7.5x7.5"=>"$1.50","8.5x11"=>"$1.50","5.5x8.5"=>"$1.50","4.25x6.87"=>"$1.50","5x8"=>"$2.50","5.06x7.81"=>"$2.50","5.25x8"=>"$2.50","5.83x8.26"=>"$2.50","6.13x9.21"=>"$2.50","6.625x10.25"=>"$2.50","6.69x9.61"=>"$2.50","7.44x9.68"=>"$2.50","7.5x9.25"=>"$2.50","7x10"=>"$2.50","8x10"=>"$2.50","8.25x6"=>"$2.50","8.25x8.25"=>"$2.50","8.25x11"=>"$2.50","8.27x11.69"=>"$2.50","8.5x8.5"=>"$2.50");
+}
 
+
+                                
+$binding_type = array("spiral"=>"$0.02","perfect"=>"$0.1");
+
+$lamination_type = array("Glossy"=>"$0.00","Matt"=>"$1.00");
+
+$color_type = array("Black n White Interior / Color Cover"=>"$0.032","Full Color Interior / Color Cover"=>"$0.11","Cream Color Interior / Color Cover"=>"$0.13");
+  
+
+$total = (($size_price) + (($binding_price * $qty)*($color_price * $pages)) + ($laminet_price * $qty));
 
 if ($qty <= 49) {
     $discount = ($total - ($total * (0/100)));
@@ -47,7 +62,6 @@ elseif ($qty >= 1000) {
     echo "-";
 }
 
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -66,82 +80,55 @@ elseif ($qty >= 1000) {
                     <div class="col-md-3">
                         <select class="form-select" name="size">
                             <option selected>Size</option>
-                            <?php 
-
-                                $book_size = array("7.5x7.5"=>"1.2","8.5x11"=>"1.2","5.5x8.5"=>"1.2","4.25x6.87"=>"1.2","5x8"=>"1.2","5.06x7.81"=>"1.2","5.25x8"=>"1.2","5.83x8.26"=>"1.2","6.13x9.21"=>"1.2","6.625x10.25"=>"1.2","6.69x9.61"=>"1.2","7.44x9.68"=>"1.2","7.5x9.25"=>"1.2","7x10"=>"1.2","8x10"=>"1.2","8.25x6"=>"1.2","8.25x8.25"=>"1.2","8.25x11"=>"1.2","8.27x11.69"=>"1.2","8.5x8.5"=>"1.2");
-                                foreach ($book_size as $bs => $size_price) {
-
-                            ?>
-                            <option value="<?php echo $size_price; ?>" <?php echo (isset($_POST['size']) && $_POST['size'] == '') ? 'selected' : ''; ?>><?php echo $bs; ?></option>
-
                             <?php
-                                } 
+                                 foreach ($book_size as $bs => $size_price) {
                             ?>
-
+                            <option value="<?php echo $bs; ?>"<?= (isset($_POST['size'])&&$_POST['size']==$bs)?'selected':'' ?>><?php echo $bs; ?></option>
+                            <?php } ?>
                     </select>
                     </div>
                     <div class="col-md-3">
                         <select class="form-select" name="binding">
                             <option selected>Binding</option>
-
                             <?php
-
-                                $binding_type = array("spiral"=>"3.0","perfect"=>"2.0");
                                 foreach ($binding_type as $bt => $binding_price) {
                             ?>
-
-                            <option value="<?php echo $binding_price; ?>" <?php echo (isset($_POST['binding']) && $_POST['binding'] == '') ? 'selected' : ''; ?>><?php echo $bt; ?></option>
-
-                             <?php
-                                } 
-                            ?>
+                            <option value="<?php echo $bt; ?>" <?= (isset($_POST['binding'])&&$_POST['binding']==$bt)?'selected':'' ?>><?php echo $bt; ?></option>
+                        
+                             <?php } ?>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <select class="form-select" name="color">
                             <option selected>Color</option>
-
                             <?php
-
-                                $color_type = array("Black n White Interior / Color Cover"=>"0.032","Full Color Interior / Color Cover"=>"0.040","Cream Color Interior / Color Cover"=>"0.040");
-                                foreach ($color_type as $ct => $color_price) {
+                               foreach ($color_type as $ct => $color_price) {
                             ?>
-
-                            <option value="<?php echo $color_price; ?>" <?php echo (isset($_POST['color']) && $_POST['color'] == '') ? 'selected' : ''; ?>><?php echo $ct; ?></option>
-                           
-                            <?php
-                                } 
-                            ?>
-
+                             <option value="<?php echo $ct; ?>" <?= (isset($_POST['color'])&&$_POST['color']==$ct)?'selected':'' ?>><?php echo $ct; ?></option>
+                        
+                            <?php } ?>
                         </select>
                     </div>
                     <div class="col-md-3">
                         <select class="form-select" name="laminat">
                             <option selected>Lamination</option>
-
-                             <?php
-
-                                $lamination_type = array("Glossy"=>"0.032","Full Color Interior / Color Cover"=>"0.040","Matt"=>"0.040");
+                            <?php
                                 foreach ($lamination_type as $lt => $laminet_price) {
                             ?>
-
-                            <option value="<?php echo $laminet_price; ?>" <?php echo (isset($_POST['laminat']) && $_POST['laminat'] == '') ? 'selected' : ''; ?>><?php echo $lt; ?></option>
-
-                            <?php
-                                } 
-                            ?>
-
+                             <option value="<?php echo $lt; ?>" <?= (isset($_POST['laminat'])&&$_POST['laminat']==$lt)?'selected':'' ?>><?php echo $lt; ?></option>
+                        
+                            <?php } ?>
                         </select>
                     </div>
                 </div>
                 <div class="row py-4">
                     <div class="col-md-3">
                         <label>Pages</label>
-                        <input type="number" class="form-control" value="<?php echo $pages ?>" <?php echo (isset($_POST['pages']) && $_POST['pages'] == 'pages') ? 'selected' : ''; ?> name="pages">
+                        <input type="number" class="form-control" value="<?php echo $pages ?>" name="pages">
                     </div>
                     <div class="col-md-3">
                         <label>Qty</label>
-                        <input type="number" class="form-control" value="<?php echo $qty ?>" <?php echo (isset($_POST['qty']) && $_POST['qty'] == 'qty') ? 'selected' : ''; ?> name="qty">
+                        <input type="number" class="form-control" value="<?php echo $qty ?>" name="qty">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
@@ -167,7 +154,6 @@ elseif ($qty >= 1000) {
                     <td><?php echo $discount_type ?></td>
                 </tr>
                <?php } ?>
-                
             </tbody>
         </table>
     </div>

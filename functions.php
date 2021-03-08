@@ -4,6 +4,13 @@ $_report = false;
 $_show_msg = true;
 $mantis_project = 65;
 
+
+function callfuncdummy(){
+
+    echo "test";
+}
+
+
 function create_slug($str){
 
 	  // remove non letter or digits
