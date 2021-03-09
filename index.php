@@ -7,61 +7,87 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$size = get('size');
-$binding = get('binding');
-$color = get('color');
-$lamination = get('laminat');
-$pages = get('pages');
-$qty = get('qty');
-
-for ($size=$book_size;) { 
-    $book_size = array("7.5x7.5"=>"$1.50","8.5x11"=>"$1.50","5.5x8.5"=>"$1.50","4.25x6.87"=>"$1.50","5x8"=>"$2.50","5.06x7.81"=>"$2.50","5.25x8"=>"$2.50","5.83x8.26"=>"$2.50","6.13x9.21"=>"$2.50","6.625x10.25"=>"$2.50","6.69x9.61"=>"$2.50","7.44x9.68"=>"$2.50","7.5x9.25"=>"$2.50","7x10"=>"$2.50","8x10"=>"$2.50","8.25x6"=>"$2.50","8.25x8.25"=>"$2.50","8.25x11"=>"$2.50","8.27x11.69"=>"$2.50","8.5x8.5"=>"$2.50");
-}
-
-
-                                
+$book_size = array("7.5x7.5"=>"$1.50","8.5x11"=>"$1.50","5.5x8.5"=>"$1.50","4.25x6.87"=>"$1.50","5x8"=>"$2.50","5.06x7.81"=>"$2.50","5.25x8"=>"$2.50","5.83x8.26"=>"$2.50","6.13x9.21"=>"$2.50","6.625x10.25"=>"$2.50","6.69x9.61"=>"$2.50","7.44x9.68"=>"$2.50","7.5x9.25"=>"$2.50","7x10"=>"$2.50","8x10"=>"$2.50","8.25x6"=>"$2.50","8.25x8.25"=>"$2.50","8.25x11"=>"$2.50","8.27x11.69"=>"$2.50","8.5x8.5"=>"$2.50");
+    
 $binding_type = array("spiral"=>"$0.02","perfect"=>"$0.1");
 
 $lamination_type = array("Glossy"=>"$0.00","Matt"=>"$1.00");
 
 $color_type = array("Black n White Interior / Color Cover"=>"$0.032","Full Color Interior / Color Cover"=>"$0.11","Cream Color Interior / Color Cover"=>"$0.13");
-  
 
-$total = (($size_price) + (($binding_price * $qty)*($color_price * $pages)) + ($laminet_price * $qty));
+if (isset($_POST['submit'])) {
+    
+    $size = get('size');
+    $binding = get('binding');
+    $color = get('color');
+    $lamination = get('laminat');
+    $pages = get('pages');
+    $qty = get('qty');
+    
+    foreach ($book_size as $bs => $size_price) {
+        if ($_POST['size'] == $bs) {
+           // echo $size_price; 
+           // echo "<br />";
+        }
+    }
+    foreach ($binding_type as $bt => $binding_price) {
+        if ($_POST['binding'] == $bt) {
+           // echo $binding_price;
+           // echo "<br />";
+        }
+    }
+    foreach ($color_type as $ct => $color_price) {
+        if ($_POST['color'] == $ct) {
+           // echo $color_price;
+           // echo "<br />";
+        }
+    }
 
-if ($qty <= 49) {
-    $discount = ($total - ($total * (0/100)));
-    $quanity = "1-49";
-    $discount_type = "-";
-}
-elseif ($qty <= 99) {
-    $discount = ($total - ($total * (10/100)));
-    $quanity = "50 - 99";
-    $discount_type = "10%";
-}
-elseif ($qty <= 249) {
-    $discount = ($total - ($total * (15/100)));
-    $quanity = "100 - 249";
-    $discount_type = "15%";
-}
-elseif ($qty <= 499) {
-    $discount = ($total - ($total * (20/100)));
-    $quanity = "250 - 499";
-    $discount_type = "20%";
-}
-elseif ($qty <= 999) {
-    $discount = ($total - ($total * (25/100)));
-    $quanity = "500 - 999";
-    $discount_type = "25%";
-}
-elseif ($qty >= 1000) {
-    $discount = ($total - ($total * (30/100)));
-    $quanity = "1000+";
-    $discount_type = "30%";
-}else{
-    echo "-";
-}
+    foreach ($lamination_type as $lt => $laminet_price) {
+        if ($_POST['laminat'] == $lt) {
+           // echo $laminet_price;
+           // echo "<br />";
+        }
+    }
 
+    $total = (($size_price) + (($binding_price * $qty) * ($color_price * $pages)) + ($laminet_price * $qty));
+
+    echo "Total Of = ". $total;
+    die();
+    
+    if ($qty <= 49) {
+        $discount = ($total - ($total * (0/100)));
+        $quanity = "1-49";
+        $discount_type = "-";
+    }
+    elseif ($qty <= 99) {
+        $discount = ($total - ($total * (10/100)));
+        $quanity = "50 - 99";
+        $discount_type = "10%";
+    }
+    elseif ($qty <= 249) {
+        $discount = ($total - ($total * (15/100)));
+        $quanity = "100 - 249";
+        $discount_type = "15%";
+    }
+    elseif ($qty <= 499) {
+        $discount = ($total - ($total * (20/100)));
+        $quanity = "250 - 499";
+        $discount_type = "20%";
+    }
+    elseif ($qty <= 999) {
+        $discount = ($total - ($total * (25/100)));
+        $quanity = "500 - 999";
+        $discount_type = "25%";
+    }
+    elseif ($qty >= 1000) {
+        $discount = ($total - ($total * (30/100)));
+        $quanity = "1000+";
+        $discount_type = "30%";
+    }else{
+        echo "-";
+    }
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -81,7 +107,7 @@ elseif ($qty >= 1000) {
                         <select class="form-select" name="size">
                             <option selected>Size</option>
                             <?php
-                                 foreach ($book_size as $bs => $size_price) {
+                                foreach ($book_size as $bs => $size_price) {
                             ?>
                             <option value="<?php echo $bs; ?>"<?= (isset($_POST['size'])&&$_POST['size']==$bs)?'selected':'' ?>><?php echo $bs; ?></option>
                             <?php } ?>
