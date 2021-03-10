@@ -5,10 +5,11 @@ $_show_msg = true;
 $mantis_project = 65;
 
 
-function callfuncdummy(){
-
-    echo "test";
-}
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
 
 
 function create_slug($str){
