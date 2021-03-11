@@ -1,9 +1,9 @@
 <?php
 include_once('db_connection.php');
-// include_once('functions.php');
+include_once('functions.php');
 
 $fetch_query = "SELECT * FROM ecommerce ORDER BY id DESC";
-$query_run = mysqli_query($db_connection,$fetch_query);
+$raw = sql($fetch_query, $db_connection);
 
 ?>
 <!doctype html>
@@ -39,18 +39,20 @@ $query_run = mysqli_query($db_connection,$fetch_query);
 				<tbody>
 					<?php
 					
-					while($raw = mysqli_fetch_array($query_run))
-					{	
-						$id = $raw['id'];
-						$name = $raw['name'];
-						$slug = $raw['slug'];
-						$sku = $raw['sku'];
-						$moq = $raw['moq'];
-						$categories = $raw['categories'];
-						$search_keywords = $raw['search_keywords'];
-						$price = $raw['price'];
-						$discount_type = $raw['discount_type'];
-						$discount_value = $raw['discount_value'];
+
+
+					foreach ($raw as $raws) {
+					
+						$id = $raws['id'];
+						$name = $raws['name'];
+						$slug = $raws['slug'];
+						$sku = $raws['sku'];
+						$moq = $raws['moq'];
+						$categories = $raws['categories'];
+						$search_keywords = $raws['search_keywords'];
+						$price = $raws['price'];
+						$discount_type = $raws['discount_type'];
+						$discount_value = $raws['discount_value'];
 					?>
 					
 					<tr>

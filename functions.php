@@ -4,23 +4,15 @@ $_report = false;
 $_show_msg = true;
 $mantis_project = 65;
 
-
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
-
-
 function create_slug($str){
 
-	  // remove non letter or digits
-  	$str = preg_replace('/[^A-Za-z0-9-]+/', '-', $str);
+      // remove non letter or digits
+    $str = preg_replace('/[^A-Za-z0-9-]+/', '-', $str);
 
-  	// lowercase
-  	$str = strtolower($str);
+    // lowercase
+    $str = strtolower($str);
 
-  	return $str;
+    return $str;
 }
 
 function queryclean($var, $param = '') {
