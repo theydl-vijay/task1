@@ -2,6 +2,10 @@
 include_once('db_connection.php');
 include_once('functions.php');
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $fetch_query = "SELECT * FROM ecommerce ORDER BY id DESC";
 $raw = sql($fetch_query, $db_connection);
 
@@ -14,7 +18,9 @@ $raw = sql($fetch_query, $db_connection);
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- Bootstrap CSS -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-		<title>Ecommerce</title>
+		<!-- fontawesome -->
+		<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+		<title>Ecommerce - Data list</title>
 	</head>
 	<body>
 		
@@ -34,15 +40,12 @@ $raw = sql($fetch_query, $db_connection);
 						<th scope="col">price</th>
 						<th scope="col">discount type</th>
 						<th scope="col">discount value</th>
+						<th scope="col">EDIT</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php
-					
-
-
 					foreach ($raw as $raws) {
-					
 						$id = $raws['id'];
 						$name = $raws['name'];
 						$slug = $raws['slug'];
@@ -54,7 +57,6 @@ $raw = sql($fetch_query, $db_connection);
 						$discount_type = $raws['discount_type'];
 						$discount_value = $raws['discount_value'];
 					?>
-					
 					<tr>
 						<td><?php echo $id; ?></td>
 						<td><?php echo $name; ?></td>
@@ -66,6 +68,10 @@ $raw = sql($fetch_query, $db_connection);
 						<td><?php echo $price; ?></td>
 						<td><?php echo $discount_type; ?></td>
 						<td><?php echo $discount_value; ?></td>
+						<td>
+	                        <a href="details_add.php?id=<?php echo $raws['id'];?>"><button type="submit" name="edit_btn" class="btn btn-info"><i class="fas fa-edit text-gray-dark"></i></button></a>
+                        </td>
+
 					</tr>
 
 				<?php } ?>

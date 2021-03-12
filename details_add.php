@@ -244,16 +244,10 @@ if (empty($_POST['search_keywords'])) {
 							<option selected disabled >Select Option...</option>
 							<?php
 								$select_opt = array("Fixed","Discount");
-							
                                 foreach ($select_opt as $option) {
                             ?>
                             <option value="<?php echo $option; ?>"<?= (isset($_POST['discount_type'])&&$_POST['discount_type']==$option)?'selected':'' ?>><?php echo $option; ?></option>
-
                         	<?php } ?>
-
-							
-							<!-- <option value="Fixed">Fixed</option>
-							<option value="Discount">Discount</option> -->
 						</select>
 						<div class="text-danger"><?php echo $errors['discount_type']; ?></div>
 					</div>
