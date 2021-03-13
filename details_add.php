@@ -1,16 +1,48 @@
 <?php
+
+include_once('db_connection.php');
+include_once('functions.php');
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $error = false;
 
-$error_msg = $insert_data = $name = $slug = $sku = $moq =  $categories =  $search_keywords =  $price =  $discount_type =  $discount_value =  '';
+$error_msg = '';
+$insert_data = '';
+$name = '';
+$slug = '';
+$sku = '';
+$moq = '';
+$categories = '';
+$search_keywords = '';
+$price = '';
+$discount_type = '';
+$discount_value = '';
 
-$errors = array('name' => '', 'slug' => '', 'sku' => '', 'moq' => '', 'categories' => '', 'search_keywords' => '', 'price' => '', 'discount_type' => '', 'discount_value' => '',);
+$errors = array('name' => '', 'slug' => '', 'sku' => '', 'moq' => '', 'categories' => '', 'search_keywords' => '', 'price' => '', 'discount_type' => '', 'discount_value' => '');
 
-include_once('db_connection.php');
-include_once('functions.php');
+$id = get('id');
+
+if ($id) {
+
+	$fetch_data = "SELECT * FROM ecommerce WHERE id='$id'";
+	$raw = sql($fetch_data, $db_connection);
+
+	foreach ($raw as $raws) {
+		$id = $raws['id'];
+		$name = $raws['name'];
+		$slug = $raws['slug'];
+		$sku = $raws['sku'];
+		$moq = $raws['moq'];
+		$categories = $raws['categories'];
+		$search_keywords = $raws['search_keywords'];
+		$price = $raws['price'];
+		$discount_type = $raws['discount_type'];
+		$discount_value = $raws['discount_value'];
+	}
+}
 
 if(isset($_POST['submit']))
 {
@@ -156,8 +188,9 @@ if (empty($_POST['search_keywords'])) {
 	if ($insert_data) {
 		header("location:ecommerce.php");
 	}
-	
 }
+	// $where = "id = '$id'";
+	// update('ecommerce', $where, $update_data, $asIs = "",$db_connection);
 ?>
 <!doctype html>
 <html lang="en">
@@ -187,7 +220,7 @@ if (empty($_POST['search_keywords'])) {
 						<div class="mb-3">
 							<label class="form-label">Name <span class="text-danger">*</span></label>
 							<input name="name" value="<?php echo $name ?>" type="text" class="form-control" required >
-							<div class="text-danger"><?php echo $errors['name']; ?></div>
+							<div class="t1ext-danger"><?php echo $errors['name']; ?></div>
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-6 col-12">
@@ -238,8 +271,8 @@ if (empty($_POST['search_keywords'])) {
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-6 col-md-6 col-12">
-						<label  class="form-label">Discount Type <span class="text-danger">*</span></label>
+					<div class="col-lg-6 col-md-6 col-12 mb-3">
+						<label class="form-label">Discount Type <span class="text-danger">*</span></label>
 						<select name="discount_type" value="<?php echo $discount_type ?>" class="form-select"required>
 							<option selected disabled >Select Option...</option>
 							<?php
