@@ -42,7 +42,11 @@ if ($id) {
 		$discount_type = $raws['discount_type'];
 		$discount_value = $raws['discount_value'];
 	}
+}
 
+// update----------------
+
+if ($id) {
 	if(isset($_POST['submit']))
 	{
 		$name = get('name');
@@ -181,8 +185,7 @@ if ($id) {
 		}
 		else
 		{	
-			$where = "id='$id'";
-			$update_table = update('ecommerce', $where, $update_data, $asIs = "", $db_connection);
+			$update_table = update('ecommerce', "id='$id'", $update_data, $asIs = "", $db_connection);
 		}
 
 		if ($update_table) {
@@ -190,153 +193,152 @@ if ($id) {
 		}
 	}
 }
-elseif (!$id) 
+
+// insert----------------
+
+if(isset($_POST['submit']))
 {
-	// insert----------------
-	if(isset($_POST['submit']))
+	$name = get('name');
+	$slug = get('slug');
+	$sku = get('sku');
+	$moq = get('moq');
+	$categories = get('categories');
+	$search_keywords = get('search_keywords');
+	$price = get('price');
+	$discount_type = get('discount_type');
+	$discount_value = get('discount_value');
+
+	$insert = array();
+	$insert['name'] = $name;
+	$insert['slug'] = $slug;
+	$insert['sku'] = $sku;
+	$insert['moq'] = $moq;
+	$insert['categories'] = $categories;
+	$insert['search_keywords'] = $search_keywords;
+	$insert['price'] = $price;
+	$insert['discount_type'] = $discount_type;
+	$insert['discount_value'] = $discount_value;
+
+// name Validation ------------------
+	if (empty($_POST['name'])) {
+		$errors['name'] = 'name Is Required *';
+		$error = true;
+	}
+	else
 	{
-		$name = get('name');
-		$slug = get('slug');
-		$sku = get('sku');
-		$moq = get('moq');
-		$categories = get('categories');
-		$search_keywords = get('search_keywords');
-		$price = get('price');
-		$discount_type = get('discount_type');
-		$discount_value = get('discount_value');
+		$name = $_POST['name'];
+			if (!preg_match('/^[a-zA-Z\s]+$/', $name)) {
+			$errors['name'] = 'Only Allow Letters And Spaces';
+			$error = true;
+		}
+	}
+// slug Validation ------------------
+	if (empty($_POST['slug'])) {
+		$errors['slug'] = 'slug Is Required *';
+		$error = true;
+	}
+	else
+	{
+		$slug = $_POST['slug'];
+		if (!preg_match('/^[a-zA-Z\s]+$/', $slug)) {
+			$errors['slug'] = 'Only Allow Letters And Spaces';
+			$error = true;
+		}
+	}
+// SKU Validation ------------------
+	if (empty($_POST['sku'])) {
+		$errors['sku'] = 'SKU Is Required *';
+		$error = true;
+	}
+	else
+	{
+		$sku = $_POST['sku'];
+		if (!preg_match('/^[a-zA-Z\s]+$/', $sku)) {
+			$errors['sku'] = 'Only Allow Letters And Spaces';
+			$error = true;
+		}
+	}
+// moq Validation ------------------
+	if (empty($_POST['moq'])) {
+		$errors['moq'] = 'moq Is Required *';
+		$error = true;
+	}
+	else
+	{
+		$moq = $_POST['moq'];
+		if (!preg_match('/^[1-9][0-9]{0,15}$/', $moq)) {
+			$errors['moq'] = 'Required *';
+			$error = true;
+		}
+	}
+// categories Validation ------------------
+	if (empty($_POST['categories'])) {
+		$errors['categories'] = 'categories Is Required *';
+		$error = true;
+	}
+	else
+	{
+		$categories = $_POST['categories'];
+		if (!preg_match('/^[a-zA-Z\s]+$/', $categories)) {
+			$errors['categories'] = 'Only Allow Letters And Spaces';
+			$error = true;
+		}
+	}
+// search_keywords Validation ------------------
+if (empty($_POST['search_keywords'])) {
+		$errors['search_keywords'] = ' Required *';
+		$error = true;
+	}
+	else
+	{
+		$search_keywords = $_POST['search_keywords'];
+		if (!preg_match('/^[a-zA-Z\s]+$/', $search_keywords)) {
+			$errors['search_keywords'] = 'Only Allow Letters And Spaces';
+			$error = true;
+		}
+	}
+// price Validation ------------------
+	if (empty($_POST['price'])) {
+			$errors['price'] = ' Required *';
+			$error = true;
+		}
+		else
+		{
+			$price = $_POST['price'];
+			if (!preg_match('/^[1-9][0-9]{0,15}$/', $price)) {
+				$errors['price'] = 'Only Allow Number value';
+				$error = true;
+			}
+		}
+// discount_type Validation ------------------
+	if (empty($_POST['discount_type'])) {
+		$errors['discount_type'] = 'Required *';
+		$error = true;
+	}
+	else
+	{
+		$discount_type = $_POST['discount_type'];
+		if (!filter_var($discount_type)) {
+			$errors['discount_type'] = 'Only Allow Letters And Spaces';
+			$error = true;
+		}
+	}
+// discount_value Validation ------------------
+	if (empty($_POST['discount_value'])) {
+		$errors['discount_value'] = 'Required *';
+		$error = true;
+	}
 
-		$insert = array();
-		$insert['name'] = $name;
-		$insert['slug'] = $slug;
-		$insert['sku'] = $sku;
-		$insert['moq'] = $moq;
-		$insert['categories'] = $categories;
-		$insert['search_keywords'] = $search_keywords;
-		$insert['price'] = $price;
-		$insert['discount_type'] = $discount_type;
-		$insert['discount_value'] = $discount_value;
+	if ($error) {
+		$error_msg = "Please Input All Filed !";
+	}
+	else
+	{
+		$insert_data = insert('ecommerce', $insert, $db_connection);
+	}
 
-	// name Validation ------------------
-		if (empty($_POST['name'])) {
-			$errors['name'] = 'name Is Required *';
-			$error = true;
-		}
-		else
-		{
-			$name = $_POST['name'];
-				if (!preg_match('/^[a-zA-Z\s]+$/', $name)) {
-				$errors['name'] = 'Only Allow Letters And Spaces';
-				$error = true;
-			}
-		}
-	// slug Validation ------------------
-		if (empty($_POST['slug'])) {
-			$errors['slug'] = 'slug Is Required *';
-			$error = true;
-		}
-		else
-		{
-			$slug = $_POST['slug'];
-			if (!preg_match('/^[a-zA-Z\s]+$/', $slug)) {
-				$errors['slug'] = 'Only Allow Letters And Spaces';
-				$error = true;
-			}
-		}
-	// SKU Validation ------------------
-		if (empty($_POST['sku'])) {
-			$errors['sku'] = 'SKU Is Required *';
-			$error = true;
-		}
-		else
-		{
-			$sku = $_POST['sku'];
-			if (!preg_match('/^[a-zA-Z\s]+$/', $sku)) {
-				$errors['sku'] = 'Only Allow Letters And Spaces';
-				$error = true;
-			}
-		}
-	// moq Validation ------------------
-		if (empty($_POST['moq'])) {
-			$errors['moq'] = 'moq Is Required *';
-			$error = true;
-		}
-		else
-		{
-			$moq = $_POST['moq'];
-			if (!preg_match('/^[1-9][0-9]{0,15}$/', $moq)) {
-				$errors['moq'] = 'Required *';
-				$error = true;
-			}
-		}
-	// categories Validation ------------------
-		if (empty($_POST['categories'])) {
-			$errors['categories'] = 'categories Is Required *';
-			$error = true;
-		}
-		else
-		{
-			$categories = $_POST['categories'];
-			if (!preg_match('/^[a-zA-Z\s]+$/', $categories)) {
-				$errors['categories'] = 'Only Allow Letters And Spaces';
-				$error = true;
-			}
-		}
-	// search_keywords Validation ------------------
-	if (empty($_POST['search_keywords'])) {
-			$errors['search_keywords'] = ' Required *';
-			$error = true;
-		}
-		else
-		{
-			$search_keywords = $_POST['search_keywords'];
-			if (!preg_match('/^[a-zA-Z\s]+$/', $search_keywords)) {
-				$errors['search_keywords'] = 'Only Allow Letters And Spaces';
-				$error = true;
-			}
-		}
-	// price Validation ------------------
-		if (empty($_POST['price'])) {
-				$errors['price'] = ' Required *';
-				$error = true;
-			}
-			else
-			{
-				$price = $_POST['price'];
-				if (!preg_match('/^[1-9][0-9]{0,15}$/', $price)) {
-					$errors['price'] = 'Only Allow Number value';
-					$error = true;
-				}
-			}
-	// discount_type Validation ------------------
-		if (empty($_POST['discount_type'])) {
-			$errors['discount_type'] = 'Required *';
-			$error = true;
-		}
-		else
-		{
-			$discount_type = $_POST['discount_type'];
-			if (!filter_var($discount_type)) {
-				$errors['discount_type'] = 'Only Allow Letters And Spaces';
-				$error = true;
-			}
-		}
-	// discount_value Validation ------------------
-		if (empty($_POST['discount_value'])) {
-			$errors['discount_value'] = 'Required *';
-			$error = true;
-		}
-
-		if ($error) {
-			$error_msg = "Please Input All Filed !";
-		}
-		else
-		{
-			$insert_data = insert('ecommerce', $insert, $db_connection);
-		}
-
-		if ($insert_data) {
-			header("location:ecommerce.php");
-		}
+	if ($insert_data) {
+		header("location:ecommerce.php");
 	}
 }
 	
@@ -369,7 +371,7 @@ elseif (!$id)
 						<div class="mb-3">
 							<label class="form-label">Name <span class="text-danger">*</span></label>
 							<input name="name" value="<?php echo $name ?>" type="text" class="form-control" required >
-							<div class="text-danger"><?php echo $errors['name']; ?></div>
+							<div class="t1ext-danger"><?php echo $errors['name']; ?></div>
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-6 col-12">
@@ -441,7 +443,7 @@ elseif (!$id)
 						</div>
 					</div>
 				</div>
-				<button type="submit" name="submit" value="submit" class="btn btn-danger">Save Here</button>
+				<button type="submit" name="submit" class="btn btn-danger">Save Here</button>
 			</form>
 			
 		</div>
