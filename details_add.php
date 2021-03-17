@@ -42,9 +42,14 @@ if ($id) {
 		$discount_type = $raws['discount_type'];
 		$discount_value = $raws['discount_value'];
 	}
+}
 
-	if(isset($_POST['submit']))
-	{
+// update---------------------
+
+if ($id !== '') {
+
+	if (isset($_POST['submit'])) {
+
 		$name = get('name');
 		$slug = get('slug');
 		$sku = get('sku');
@@ -55,144 +60,26 @@ if ($id) {
 		$discount_type = get('discount_type');
 		$discount_value = get('discount_value');
 
-		$update_data = array();
-		$update_data['name'] = $name;
-		$update_data['slug'] = $slug;
-		$update_data['sku'] = $sku;
-		$update_data['moq'] = $moq;
-		$update_data['categories'] = $categories;
-		$update_data['search_keywords'] = $search_keywords;
-		$update_data['price'] = $price;
-		$update_data['discount_type'] = $discount_type;
-		$update_data['discount_value'] = $discount_value;
+		$update['name'] = $name;
+		$update['slug'] = $slug;
+		$update['sku'] = $sku;
+		$update['moq'] = $moq;
+		$update['categories'] = $categories;
+		$update['search_keywords'] = $search_keywords;
+		$update['price'] = $price;
+		$update['discount_type'] = $discount_type;
+		$update['discount_value'] = $discount_value;
 
-	// name Validation ------------------
-		if (empty($_POST['name'])) {
-			$errors['name'] = 'name Is Required *';
-			$error = true;
-		}
-		else
-		{
-			$name = $_POST['name'];
-				if (!preg_match('/^[a-zA-Z\s]+$/', $name)) {
-				$errors['name'] = 'Only Allow Letters And Spaces';
-				$error = true;
-			}
-		}
-	// slug Validation ------------------
-		if (empty($_POST['slug'])) {
-			$errors['slug'] = 'slug Is Required *';
-			$error = true;
-		}
-		else
-		{
-			$slug = $_POST['slug'];
-			if (!preg_match('/^[a-zA-Z\s]+$/', $slug)) {
-				$errors['slug'] = 'Only Allow Letters And Spaces';
-				$error = true;
-			}
-		}
-	// SKU Validation ------------------
-		if (empty($_POST['sku'])) {
-			$errors['sku'] = 'SKU Is Required *';
-			$error = true;
-		}
-		else
-		{
-			$sku = $_POST['sku'];
-			if (!preg_match('/^[a-zA-Z\s]+$/', $sku)) {
-				$errors['sku'] = 'Only Allow Letters And Spaces';
-				$error = true;
-			}
-		}
-	// moq Validation ------------------
-		if (empty($_POST['moq'])) {
-			$errors['moq'] = 'moq Is Required *';
-			$error = true;
-		}
-		else
-		{
-			$moq = $_POST['moq'];
-			if (!preg_match('/^[1-9][0-9]{0,15}$/', $moq)) {
-				$errors['moq'] = 'Required *';
-				$error = true;
-			}
-		}
-	// categories Validation ------------------
-		if (empty($_POST['categories'])) {
-			$errors['categories'] = 'categories Is Required *';
-			$error = true;
-		}
-		else
-		{
-			$categories = $_POST['categories'];
-			if (!preg_match('/^[a-zA-Z\s]+$/', $categories)) {
-				$errors['categories'] = 'Only Allow Letters And Spaces';
-				$error = true;
-			}
-		}
-	// search_keywords Validation ------------------
-	if (empty($_POST['search_keywords'])) {
-			$errors['search_keywords'] = ' Required *';
-			$error = true;
-		}
-		else
-		{
-			$search_keywords = $_POST['search_keywords'];
-			if (!preg_match('/^[a-zA-Z\s]+$/', $search_keywords)) {
-				$errors['search_keywords'] = 'Only Allow Letters And Spaces';
-				$error = true;
-			}
-		}
-	// price Validation ------------------
-		if (empty($_POST['price'])) {
-				$errors['price'] = ' Required *';
-				$error = true;
-			}
-			else
-			{
-				$price = $_POST['price'];
-				if (!preg_match('/^[1-9][0-9]{0,15}$/', $price)) {
-					$errors['price'] = 'Only Allow Number value';
-					$error = true;
-				}
-			}
-	// discount_type Validation ------------------
-		if (empty($_POST['discount_type'])) {
-			$errors['discount_type'] = 'Required *';
-			$error = true;
-		}
-		else
-		{
-			$discount_type = $_POST['discount_type'];
-			if (!filter_var($discount_type)) {
-				$errors['discount_type'] = 'Only Allow Letters And Spaces';
-				$error = true;
-			}
-		}
-	// discount_value Validation------------------
-		if (empty($_POST['discount_value'])) {
-			$errors['discount_value'] = 'Required *';
-			$error = true;
-		}
+		$where = "id = '$id'";
+		update('ecommerce', $where, $update, $asIs = "", $db_connection);
 
-		if ($error) {
-			$error_msg = "Please Input All Filed !";
-		}
-		else
-		{	
-			$where = "id='$id'";
-			$update_table = update('ecommerce', $where, $update_data, $asIs = "", $db_connection);
-		}
-
-		if ($update_table) {
-			header("location:ecommerce.php");
-		}
+		// update($table, $where, $data, $asIs = "", $con = "");
 	}
 }
-elseif (!$id) 
+elseif ($id == '') 
 {
 	// insert----------------
+
 	if(isset($_POST['submit']))
 	{
 		$name = get('name');
@@ -205,7 +92,6 @@ elseif (!$id)
 		$discount_type = get('discount_type');
 		$discount_value = get('discount_value');
 
-		$insert = array();
 		$insert['name'] = $name;
 		$insert['slug'] = $slug;
 		$insert['sku'] = $sku;
@@ -339,7 +225,10 @@ elseif (!$id)
 		}
 	}
 }
-	
+else
+{
+
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -441,11 +330,12 @@ elseif (!$id)
 						</div>
 					</div>
 				</div>
-				<button type="submit" name="submit" value="submit" class="btn btn-danger">Save Here</button>
+				<button type='submit' name='submit' class='btn btn-danger'>Save Here</button>
+
 			</form>
 			
 		</div>
-		<!-- Bootstrap Bundle with Popper -->
+		<!-- Bootstrap Bundle with Popper
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 	</body>
 </html>
