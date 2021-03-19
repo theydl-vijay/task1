@@ -244,8 +244,8 @@ if (isset($_POST['submit']))
 			};
 		?>
 		
-		<div class="container text-capitalize">
-			<h2 class="text-center py-4">Add New Product Details Here </h2>
+		<div class="container text-capitalize py-5">
+			<h2 class="text-center pb-4">Add New Product Details Here </h2>
 			<form method="POST">
 				<div class="row">
 					<div class="col-lg-6 col-md-6 col-12">

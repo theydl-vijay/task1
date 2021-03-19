@@ -9,6 +9,11 @@ error_reporting(E_ALL);
 $fetch_query = "SELECT * FROM ecommerce ORDER BY id DESC";
 $raw = sql($fetch_query, $db_connection);
 
+$id = get('id');
+
+$where = "id='$id'";
+delete('ecommerce', $where, $db_connection);
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -41,6 +46,7 @@ $raw = sql($fetch_query, $db_connection);
 						<th scope="col">discount type</th>
 						<th scope="col">discount value</th>
 						<th scope="col">EDIT</th>
+						<th scope="col">DELETE</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -70,6 +76,9 @@ $raw = sql($fetch_query, $db_connection);
 						<td><?php echo $discount_value; ?></td>
 						<td>
 	                        <a href="details_add.php?id=<?php echo $raws['id'];?>"><button type="submit" name="edit_btn" class="btn btn-info"><i class="fas fa-edit text-gray-dark"></i></button></a>
+                        </td>
+                        <td>
+	                        <a href="ecommerce.php?id=<?php echo $raws['id'];?>"><button type="submit" name="delete_btn" class="btn btn-info"><i class="fas fa-trash text-gray-dark"></i></button></a>
                         </td>
 
 					</tr>

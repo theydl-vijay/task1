@@ -101,7 +101,7 @@ if (isset($_POST['submit'])) {
     </head>
     <body>
         <div class="container-fluid py-4">
-            <form method="post" action="">
+            <form method="post">
                 <div class="row">
                     <div class="col-md-3">
                         <select class="form-select" name="size">
