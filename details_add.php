@@ -25,6 +25,15 @@ $errors = array('name' => '', 'slug' => '', 'sku' => '', 'moq' => '', 'categorie
 
 $id = get('id');
 
+$name = get('name');
+$slug = get('slug');
+$sku = get('sku');
+$moq = get('moq');
+$categories = get('categories');
+$search_keywords = get('search_keywords');
+$price = get('price');
+$discount_type = get('discount_type');
+$discount_value = get('discount_value');
 
 if ($id) {
 
@@ -45,31 +54,9 @@ if ($id) {
 	}
 }
 
-// insert----------------
-
-if(isset($_POST['submit']))
-{	
-	$name = get('name');
-	$slug = get('slug');
-	$sku = get('sku');
-	$moq = get('moq');
-	$categories = get('categories');
-	$search_keywords = get('search_keywords');
-	$price = get('price');
-	$discount_type = get('discount_type');
-	$discount_value = get('discount_value');
-
-	$insert['name'] = $name;
-	$insert['slug'] = $slug;
-	$insert['sku'] = $sku;
-	$insert['moq'] = $moq;
-	$insert['categories'] = $categories;
-	$insert['search_keywords'] = $search_keywords;
-	$insert['price'] = $price;
-	$insert['discount_type'] = $discount_type;
-	$insert['discount_value'] = $discount_value;
-
-// name Validation ------------------
+if (isset($_POST['submit'])) 
+{
+	// name Validation ------------------
 	if (empty($_POST['name'])) {
 		$errors['name'] = 'name Is Required *';
 		$error = true;
@@ -82,7 +69,8 @@ if(isset($_POST['submit']))
 			$error = true;
 		}
 	}
-// slug Validation ------------------
+
+	// slug Validation ------------------
 	if (empty($_POST['slug'])) {
 		$errors['slug'] = 'slug Is Required *';
 		$error = true;
@@ -95,7 +83,8 @@ if(isset($_POST['submit']))
 			$error = true;
 		}
 	}
-// SKU Validation ------------------
+
+	// SKU Validation ------------------
 	if (empty($_POST['sku'])) {
 		$errors['sku'] = 'SKU Is Required *';
 		$error = true;
@@ -108,7 +97,8 @@ if(isset($_POST['submit']))
 			$error = true;
 		}
 	}
-// moq Validation ------------------
+
+	// moq Validation ------------------
 	if (empty($_POST['moq'])) {
 		$errors['moq'] = 'moq Is Required *';
 		$error = true;
@@ -121,7 +111,8 @@ if(isset($_POST['submit']))
 			$error = true;
 		}
 	}
-// categories Validation ------------------
+
+	// categories Validation ------------------
 	if (empty($_POST['categories'])) {
 		$errors['categories'] = 'categories Is Required *';
 		$error = true;
@@ -134,8 +125,9 @@ if(isset($_POST['submit']))
 			$error = true;
 		}
 	}
-// search_keywords Validation ------------------
-if (empty($_POST['search_keywords'])) {
+
+	// search_keywords Validation ------------------
+	if (empty($_POST['search_keywords'])) {
 		$errors['search_keywords'] = ' Required *';
 		$error = true;
 	}
@@ -147,20 +139,22 @@ if (empty($_POST['search_keywords'])) {
 			$error = true;
 		}
 	}
-// price Validation ------------------
+
+	// price Validation ------------------
 	if (empty($_POST['price'])) {
 			$errors['price'] = ' Required *';
 			$error = true;
 		}
-		else
-		{
-			$price = $_POST['price'];
-			if (!preg_match('/^[1-9][0-9]{0,15}$/', $price)) {
-				$errors['price'] = 'Only Allow Number value';
-				$error = true;
-			}
+	else
+	{
+		$price = $_POST['price'];
+		if (!preg_match('/^[1-9][0-9]{0,15}$/', $price)) {
+			$errors['price'] = 'Only Allow Number value';
+			$error = true;
 		}
-// discount_type Validation ------------------
+	}
+
+	// discount_type Validation ------------------
 	if (empty($_POST['discount_type'])) {
 		$errors['discount_type'] = 'Required *';
 		$error = true;
@@ -173,7 +167,8 @@ if (empty($_POST['search_keywords'])) {
 			$error = true;
 		}
 	}
-// discount_value Validation ------------------
+
+	// discount_value Validation ------------------
 	if (empty($_POST['discount_value'])) {
 		$errors['discount_value'] = 'Required *';
 		$error = true;
@@ -184,52 +179,49 @@ if (empty($_POST['search_keywords'])) {
 	}
 	else
 	{
-		$insert_data = insert('ecommerce', $insert, $db_connection);
-	}
+		if($id)
+		{
+			$update_data = array();
+			$update_data['name'] = $name;
+			$update_data['slug'] = $slug;
+			$update_data['sku'] = $sku;
+			$update_data['moq'] = $moq;
+			$update_data['categories'] = $categories;
+			$update_data['search_keywords'] = $search_keywords;
+			$update_data['price'] = $price;
+			$update_data['discount_type'] = $discount_type;
+			$update_data['discount_value'] = $discount_value;
 
-	if ($insert_data) {
-		header("location:ecommerce.php");
-	}
-}
-echo $id;
-	die();
-if(isset($_POST['update_btn'])){
+			$where = "id='$id'";
+			$update_table = update('ecommerce', $where, $update_data, $asIs = "", $db_connection);
 
-	// $id = get('id');
-	$name = get('name');
-	$slug = get('slug');
-	$sku = get('sku');
-	$moq = get('moq');
-	$categories = get('categories');
-	$search_keywords = get('search_keywords');
-	$price = get('price');
-	$discount_type = get('discount_type');
-	$discount_value = get('discount_value');
+			if ($update_data) 
+			{
+				header("location:ecommerce.php");
+			}
+		}
+		else
+		{	
+			$insert = array();
+			$insert['name'] = $name;
+			$insert['slug'] = $slug;
+			$insert['sku'] = $sku;
+			$insert['moq'] = $moq;
+			$insert['categories'] = $categories;
+			$insert['search_keywords'] = $search_keywords;
+			$insert['price'] = $price;
+			$insert['discount_type'] = $discount_type;
+			$insert['discount_value'] = $discount_value;
 
-	$update_data = array();
-	$update_data['name'] = $name;
-	$update_data['slug'] = $slug;
-	$update_data['sku'] = $sku;
-	$update_data['moq'] = $moq;
-	$update_data['categories'] = $categories;
-	$update_data['search_keywords'] = $search_keywords;
-	$update_data['price'] = $price;
-	$update_data['discount_type'] = $discount_type;
-	$update_data['discount_value'] = $discount_value;
+			$insert_data = insert('ecommerce', $insert, $db_connection);
 
-	$where = "id=' . $id . '";
-	echo $where;
-	die();
-
-	$update_table = update('ecommerce', $where, $update_data, $asIs = "", $db_connection);
-
-	
-
-	if ($update_data) {
-		header("location:ecommerce.php");
+			if ($insert_data) 
+			{
+				header("location:ecommerce.php");
+			}
+		}
 	}
 }
-
 
 ?>
 <!doctype html>
@@ -254,7 +246,7 @@ if(isset($_POST['update_btn'])){
 		
 		<div class="container text-capitalize">
 			<h2 class="text-center py-4">Add New Product Details Here </h2>
-			<form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+			<form method="POST">
 				<div class="row">
 					<div class="col-lg-6 col-md-6 col-12">
 						<div class="mb-3">
@@ -332,20 +324,7 @@ if(isset($_POST['update_btn'])){
 						</div>
 					</div>
 				</div>
-
-				<?php
-
-					if ($id) {
-						echo "<button type='submit' name='update_btn' value='update' class='btn btn-danger'>Save Here</button>";
-					}
-					else
-					{
-						echo "<button type='submit' name='submit' class='btn btn-danger'>Save Here</button>";
-					}
-
-				?>
-
-				
+				<button type='submit' name='submit' class='btn btn-danger'>Save Here</button>
 			</form>
 			
 		</div>
