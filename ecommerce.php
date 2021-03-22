@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 $fetch_query = "SELECT * FROM ecommerce ORDER BY id DESC";
 $raw = sql($fetch_query, $db_connection);
 
-$id = get('id');
+$id = get('id'); 
 
 $where = "id='$id'";
 delete('ecommerce', $where, $db_connection);
@@ -21,10 +21,13 @@ delete('ecommerce', $where, $db_connection);
 		<!-- Required meta tags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+
 		<!-- Bootstrap CSS -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
 		<!-- fontawesome -->
 		<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
 		<title>Ecommerce - Data list</title>
 	</head>
 	<body>
@@ -80,15 +83,13 @@ delete('ecommerce', $where, $db_connection);
                         <td>
 	                        <a href="ecommerce.php?id=<?php echo $raws['id'];?>"><button type="submit" name="delete_btn" class="btn btn-info"><i class="fas fa-trash text-gray-dark"></i></button></a>
                         </td>
-
 					</tr>
-
 				<?php } ?>
-
 				</tbody>
 			</table>
 		</div>
 		<!-- Bootstrap Bundle with Popper -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="jquery-3.6.0.min.js"></script>
 	</body>
 </html>
