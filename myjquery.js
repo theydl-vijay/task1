@@ -7,7 +7,7 @@ $( document ).ready(function() {
 
     		slug: {
     			required: true,
-    			// regexp: true
+    			regexp: true
     		},
     		
     		sku: {

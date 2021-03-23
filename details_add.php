@@ -25,15 +25,15 @@ $errors = array('name' => '', 'slug' => '', 'sku' => '', 'moq' => '', 'categorie
 
 $id = get('id');
 
-$name = get('name');
-$slug = get('slug');
-$sku = get('sku');
-$moq = get('moq');
-$categories = get('categories');
-$search_keywords = get('search_keywords');
-$price = get('price');
-$discount_type = get('discount_type');
-$discount_value = get('discount_value');
+// $name = get('name');
+// $slug = get('slug');
+// $sku = get('sku');
+// $moq = get('moq');
+// $categories = get('categories');
+// $search_keywords = get('search_keywords');
+// $price = get('price');
+// $discount_type = get('discount_type');
+// $discount_value = get('discount_value');
 
 if ($id) {
 
@@ -56,160 +56,7 @@ if ($id) {
 
 if (isset($_POST['submit'])) 
 {
-	// // name Validation ------------------
-	// if (empty($_POST['name'])) {
-	// 	$errors['name'] = 'name Is Required *';
-	// 	$error = true;
-	// }
-	// else
-	// {
-	// 	$name = $_POST['name'];
-	// 		if (!preg_match('/^[a-zA-Z\s]+$/', $name)) {
-	// 		$errors['name'] = 'Only Allow Letters And Spaces';
-	// 		$error = true;
-	// 	}
-	// }
-
-	// // slug Validation ------------------
-	// if (empty($_POST['slug'])) {
-	// 	$errors['slug'] = 'slug Is Required *';
-	// 	$error = true;
-	// }
-	// else
-	// {
-	// 	$slug = $_POST['slug'];
-	// 	if (!preg_match('/^[a-zA-Z\s]+$/', $slug)) {
-	// 		$errors['slug'] = 'Only Allow Letters And Spaces';
-	// 		$error = true;
-	// 	}
-	// }
-
-	// // SKU Validation ------------------
-	// if (empty($_POST['sku'])) {
-	// 	$errors['sku'] = 'SKU Is Required *';
-	// 	$error = true;
-	// }
-	// else
-	// {
-	// 	$sku = $_POST['sku'];
-	// 	if (!preg_match('/^[a-zA-Z\s]+$/', $sku)) {
-	// 		$errors['sku'] = 'Only Allow Letters And Spaces';
-	// 		$error = true;
-	// 	}
-	// }
-
-	// // moq Validation ------------------
-	// if (empty($_POST['moq'])) {
-	// 	$errors['moq'] = 'moq Is Required *';
-	// 	$error = true;
-	// }
-	// else
-	// {
-	// 	$moq = $_POST['moq'];
-	// 	if (!preg_match('/^[1-9][0-9]{0,15}$/', $moq)) {
-	// 		$errors['moq'] = 'Required *';
-	// 		$error = true;
-	// 	}
-	// }
-
-	// // categories Validation ------------------
-	// if (empty($_POST['categories'])) {
-	// 	$errors['categories'] = 'categories Is Required *';
-	// 	$error = true;
-	// }
-	// else
-	// {
-	// 	$categories = $_POST['categories'];
-	// 	if (!preg_match('/^[a-zA-Z\s]+$/', $categories)) {
-	// 		$errors['categories'] = 'Only Allow Letters And Spaces';
-	// 		$error = true;
-	// 	}
-	// }
-
-	// // search_keywords Validation ------------------
-	// if (empty($_POST['search_keywords'])) {
-	// 	$errors['search_keywords'] = ' Required *';
-	// 	$error = true;
-	// }
-	// else
-	// {
-	// 	$search_keywords = $_POST['search_keywords'];
-	// 	if (!preg_match('/^[a-zA-Z\s]+$/', $search_keywords)) {
-	// 		$errors['search_keywords'] = 'Only Allow Letters And Spaces';
-	// 		$error = true;
-	// 	}
-	// }
-
-	// // price Validation ------------------
-	// if (empty($_POST['price'])) {
-	// 		$errors['price'] = ' Required *';
-	// 		$error = true;
-	// 	}
-	// else
-	// {
-	// 	$price = $_POST['price'];
-	// 	if (!preg_match('/^[1-9][0-9]{0,15}$/', $price)) {
-	// 		$errors['price'] = 'Only Allow Number value';
-	// 		$error = true;
-	// 	}
-	// }
-
-	// // discount_type Validation ------------------
-	// if (empty($_POST['discount_type'])) {
-	// 	$errors['discount_type'] = 'Required *';
-	// 	$error = true;
-	// }
-	// else
-	// {
-	// 	$discount_type = $_POST['discount_type'];
-	// 	if (!filter_var($discount_type)) {
-	// 		$errors['discount_type'] = 'Only Allow Letters And Spaces';
-	// 		$error = true;
-	// 	}
-	// }
-
-	// // discount_value Validation ------------------
-	// if (empty($_POST['discount_value'])) {
-	// 	$errors['discount_value'] = 'Required *';
-	// 	$error = true;
-	// }
-
-	if ($error) {
-		$error_msg = "Please Input All Filed !";
-	}
-	else
-	{
-		$data = array();
-		$data['name'] = $name;
-		$data['slug'] = $slug;
-		$data['sku'] = $sku;
-		$data['moq'] = $moq;
-		$data['categories'] = $categories;
-		$data['search_keywords'] = $search_keywords;
-		$data['price'] = $price;
-		$data['discount_type'] = $discount_type;
-		$data['discount_value'] = $discount_value;
-
-		if($id)
-		{
-			$where = "id='$id'";
-			$update_data = update('ecommerce', $where, $data, $asIs = "", $db_connection);
-
-			if ($update_data) 
-			{
-				header("location:ecommerce.php");
-			}
-		}
-		else
-		{	
-			$insert_data = insert('ecommerce', $data, $db_connection);
-
-			if ($insert_data) 
-			{
-				header("location:ecommerce.php");
-			}
-		}
-	}
+	include_once('api_insert.php');
 }
 
 ?>
