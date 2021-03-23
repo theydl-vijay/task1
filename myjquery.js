@@ -7,7 +7,7 @@ $( document ).ready(function() {
 
     		slug: {
     			required: true,
-    			regexp: true
+    			// regexp: true
     		},
     		
     		sku: {
@@ -80,7 +80,7 @@ $( document ).ready(function() {
     })
 
     jQuery.validator.addMethod("regexp", function(value,element){
-    	return this.optional(element) || /a-z A-Z 0-9 -/.test(value);
+    	return this.optional(element) || '/^[a-zA-Z0-9\s]+$/'.test(value);
     }, "only Allow This a-z A-Z 0-9 - Validate Word");
 
     $("#name").keyup(function(){

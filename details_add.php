@@ -253,8 +253,18 @@ if (isset($_POST['submit']))
 					</div>
 					<div class="col-lg-6 col-md-6 col-12">
 						<div class="mb-3">
-							<label for="slug" class="form-label">Slug <span class="text-danger">*</span></label>
-							<input name="slug" id="slug" value="<?php echo $slug ?>" type="text" class="form-control"  >
+
+							<?php
+								if ($id) {
+									echo"<label for='slug' class='form-label'>Slug <span class='text-danger'>*</span></label>
+										<input name='slug' value='$slug' type='text' class='form-control'  >";
+								}
+								else
+								{
+									echo"<label for='slug' class='form-label'>Slug <span class='text-danger'>*</span></label>
+										<input name='slug' id='slug' value='$slug' type='text' class='form-control'  >";	
+								}
+							 ?>
 							<div class="text-danger"><?php echo $errors['slug']; ?></div>
 						</div>
 					</div>
