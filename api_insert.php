@@ -2,6 +2,7 @@
 	
 // include_once('db_connection.php');
 // include_once('functions.php');
+// $error = false;
 
 // ini_set('display_errors', 1);
 // ini_set('display_startup_errors', 1);
@@ -11,8 +12,14 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Method: POST');
 header('Access-Control-Allow-Header: Access-Control-Allow-Header, Content-Type, Access-Control-Allow-Method, Authorization, X-Requested-With');
-
 $data = json_decode(file_get_contents("php://input"), True);
+
+$api_ary['code'] = 200;
+$api_ary['massge'] = 'data inserted';
+$api_ary['data'] = $_POST; 
+
+// print_r($_POST);
+// die();
 
 $name = $data['name'];
 $slug = $data['slug'];
@@ -141,15 +148,20 @@ if (empty($_POST['discount_value'])) {
 	$errors['discount_value'] = 'Required *';
 	$error = true;
 }
+else
+{
+	$discount_value = $_POST['discount_value'];
+	if (!preg_match('/^[1-9][0-9]{0,15}$/', $discount_value)) {
+		$errors['discount_value'] = 'Only Allow Number value';
+		$error = true;
+	}
+}
 
 if ($error) {
 	$error_msg = "Please Input All Filed !";
 }
 else
-{
-
-	
-
+{	
 	$p_data = array();
 	$p_data['name'] = $name;
 	$p_data['slug'] = $slug;
@@ -163,9 +175,12 @@ else
 
 	$insert_data = insert('ecommerce', $p_data, $db_connection);
 
-	if ($insert_data) 
+	if ($insert_data) {
+		echo json_encode(array($api_ary));
+	}
+	else
 	{
-		header("location:ecommerce.php");
+		echo json_encode(array('message' => 'data not inserted','status' => 'false'));
 	}
 }
 
