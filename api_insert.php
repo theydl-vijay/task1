@@ -19,68 +19,79 @@ $discount_value = get('discount_value');
 
 header('Content-type:application/json');
 
-$data = json_decode(file_get_contents("php://input"), True);
+$testing = 'testing';
 
-$api_ary['code'] = 200;
-$api_ary['massge'] = 'data inserted';
-$api_ary['data'] = $_POST; 
-
-$error = '';
+$json_creat['code'] = 200;
+$json_creat['massge'] = 'data inserted';
+$json_creat['data'] = $_POST; 
 
 if (empty($name)){
-	$error = 'Name is required';
+	$json_error['validation'] = 'Name is required';
+	$json_error['massge'] = 'Name missing';
 }
 elseif (!preg_match('/^[a-zA-Z\s]+$/', $name)){
-	$error = 'Only Allow Letters And Spaces in name value';
+	$json_error['validation'] = 'Only Allow Letters And Spaces in name value';
 }
 elseif(empty($slug)){
-	$error = 'Slug is required';	
+	$json_error['validation'] = 'Slug is required';
+	$json_error['massge'] = 'Slug missing';	
 }
 elseif (!preg_match('/^[a-zA-Z\s]+$/', $slug)){
-	$error = 'Only Allow Letters And Spaces';
+	$json_error['validation'] = 'Only Allow Letters And Spaces';
 }
 elseif (empty($sku)){
-	$error = 'Sku is required';
+	$json_error['validation'] = 'Sku is required';
+	$json_error['massge'] = 'Slug missing';
 }
 elseif (!preg_match('/^[a-zA-Z\s]+$/', $sku)){
-	$error = 'Only Allow Letters And Spaces in sku value';
+	$json_error['validation'] = 'Only Allow Letters And Spaces in sku value';
 }
 elseif (empty($moq)){
-	$error = 'MOQ is required';
+	$json_error['validation'] = 'MOQ is required';
+	$json_error['massge'] = 'moq missing';
 }
 elseif (!preg_match('/^[1-9][0-9]{0,15}$/', $moq)){
-	$error = 'Only Allow Number in moq value';
+	$json_error['validation'] = 'Only Allow Number in moq value';
 }
 elseif (empty($categories)){
-	$error = 'Categories id required';
+	$json_error['validation'] = 'Categories id required';
+	$json_error['massge'] = 'moq categories';
 }
 elseif (!preg_match('/^[a-zA-Z\s]+$/', $categories)){
-	$error = 'Only Allow Letters And Spaces in categories value';
+	$json_error['validation'] = 'Only Allow Letters And Spaces in categories value';
 }
 elseif (empty($search_keywords)){
-	$error = 'Search keywords is required';
+	$json_error['validation'] = 'Search keywords is required';
+	$json_error['massge'] = 'Search keywords missing';
 }
 elseif (!preg_match('/^[a-zA-Z\s]+$/', $search_keywords)){
-	$error = 'Only Allow Letters And Spaces in search keywords value';
+	$json_error['validation'] = 'Only Allow Letters And Spaces in search keywords value';
 }
 elseif (empty($price)){
-	$error = 'Price is required';
+	$json_error['validation'] = 'Price is required';
+	$json_error['massge'] = 'Price missing';
 }
 elseif (!preg_match('/^[1-9][0-9]{0,15}$/', $price)){
-	$error = 'Only Allow Number in price value';
+	$json_error['validation'] = 'Only Allow Number in price value';
 }
 elseif (empty($discount_type)){
-	$error = 'Select any one option in discount type value';
+	$json_error['validation'] = 'Select any one option in discount type value';
+	$json_error['massge'] = 'Discount type missing';
 }
 elseif (empty($discount_value)){
-	$error = 'Discount value is required';
+	$json_error['validation'] = 'Discount value is required';
+	$json_error['massge'] = 'Discount value missing';
 }
 elseif (!preg_match('/^[1-9][0-9]{0,15}$/', $discount_value)){
-	$error = 'Only Allow Number in discount value';
+	$json_error['validation'] = 'Only Allow Number in discount value';
 }
 
-if ($error){
-	$error_msg = "Please Input All Filed !";
+if ($json_error) {
+$json_error	['code'] = 202;
+}
+
+if ($json_error){
+	echo json_encode($json_error);
 }
 else
 {	
@@ -98,11 +109,7 @@ else
 	$insert_data = insert('ecommerce', $p_data, $db_connection);
 
 	if ($insert_data) {
-		echo json_encode(array($api_ary));
-	}
-	else
-	{
-		echo json_encode(array('message' => 'data not inserted','status' => 'false'));
+		echo json_encode(array($json_creat));
 	}
 }
 
