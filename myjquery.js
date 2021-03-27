@@ -7,7 +7,7 @@ $( document ).ready(function() {
 
     		slug: {
     			required: true,
-    			regexp: true
+    			// regexp: true
     		},
     		
     		sku: {
@@ -79,9 +79,9 @@ $( document ).ready(function() {
     	} 
     })
 
-    jQuery.validator.addMethod("regexp", function(value,element){
-    	return this.optional(element) || '/^[a-zA-Z0-9\s]+$/'.test(value);
-    }, "only Allow This a-z A-Z 0-9 - Validate Word");
+    // jQuery.validator.addMethod("regexp", function(value,element){
+    // 	return this.optional(element) || '/^[a-zA-Z0-9\s]+$/'.test(value);
+    // }, "only Allow This a-z A-Z 0-9 - Validate Word");
 
     $("#name").keyup(function(){
     	var str = $(this).val()
@@ -89,6 +89,36 @@ $( document ).ready(function() {
     	var slug = trims.replace(/a-z A-Z 0-9 -/, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
     	$("#slug").val(slug.toLowerCase())
     })
+
+    
+let ajaxbtn = document.getElementById('ajaxbtn');
+ajaxbtn.addEventListener('click', buttonClickHandler)
+
+function buttonClickHandler() {
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('POST', 'api_insert.php', true);
+    xhr.getResponseHeader('Content-type', 'application/json');
+
+    xhr.onprogress = function(){
+        console.log('On progress');
+    }
+    xhr.onload = function () {
+        if(this.status === 200){
+
+            console.log(this.responseText)
+        }
+        else{
+            console.log("Some error occured")
+        }
+    }
+
+    // send the request
+    params = 'api_insert.php';
+    xhr.send(params);
+    console.log("We are done!");
+}
+
 });
 
 
