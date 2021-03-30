@@ -286,7 +286,7 @@ if (isset($_POST['submit']))
 					<div class="col-lg-4 col-md-4 col-12">
 						<div class="mb-3">
 							<label for="search_keywords" class="form-label">Search keywords <span class="text-danger">*</span></label>
-							<input name="search_keywords" value="<?php echo $search_keywords ?>" type="text" class="form-control"  >
+							<input name="search_keywords" id="search_keywords" value="<?php echo $search_keywords ?>" type="text" class="form-control"  >
 							<div class="text-danger"><?php echo $errors['search_keywords']; ?></div>
 						</div>
 					</div>
@@ -322,7 +322,6 @@ if (isset($_POST['submit']))
 				</div>
 				<button type='submit' id="submit" name='submit' class='btn btn-danger'>Save Here</button>
 				<button type="button" name="Ajax_submit" id="ajaxbtn" class='btn btn-primary'>Ajax btn</button>
-				<button type="button" id="popBtn" class="btn btn-secondary">Populate</button>
 
 			</form>
 			

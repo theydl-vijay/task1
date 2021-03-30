@@ -25,6 +25,7 @@ $json_creat['code'] = 200;
 $json_creat['massge'] = 'data inserted';
 $json_creat['data'] = $_POST; 
 
+$json_error = "";
 if (empty($name)){
 	$json_error['validation'] = 'Name is required';
 	$json_error['massge'] = 'Name missing';
