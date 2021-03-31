@@ -90,7 +90,6 @@ $(document).ready(function() {
         $("#slug").val(slug.toLowerCase())
     })
 
-    var code = "";
     $("#ajaxbtn").click(function(event) {
         var name = $("#name").val();
         var slug = $("#slug").val();
@@ -119,14 +118,4 @@ $(document).ready(function() {
             console.log('status', status);
         });
     });
-    var a = "test";
-    if (code = 200) {
-        console.log (a);
-        jQuery(document).ajaxSuccess(function(event, xhr, settings) {
-            window.location.href = 'ecommerce.php';
-        });
-    }
-    else{
-        window.location.href = 'details_add.php';
-    } 
 });
