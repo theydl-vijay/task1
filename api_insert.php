@@ -28,7 +28,6 @@ $json_creat['data'] = $_POST;
 if (empty($name)){
 	$json_error['validation'] = 'Name is required';
 	$json_error['massage'] = 'Name missing';
-	$json_error	['code'] = 202;
 	$error = true;
 }
 elseif (!preg_match('/^[a-zA-Z\s]+$/', $name)){
@@ -37,7 +36,6 @@ elseif (!preg_match('/^[a-zA-Z\s]+$/', $name)){
 elseif(empty($slug)){
 	$json_error['validation'] = 'Slug is required';
 	$json_error['massage'] = 'Slug missing';	
-	$json_error	['code'] = 202;
 	$error = true;
 }
 elseif (!preg_match('/^[a-zA-Z\s]+$/', $slug)){
@@ -47,7 +45,6 @@ elseif (!preg_match('/^[a-zA-Z\s]+$/', $slug)){
 elseif (empty($sku)){
 	$json_error['validation'] = 'Sku is required';
 	$json_error['massage'] = 'Slug missing';
-	$json_error	['code'] = 202;
 	$error = true;
 }
 elseif (!preg_match('/^[a-zA-Z\s]+$/', $sku)){
@@ -57,7 +54,6 @@ elseif (!preg_match('/^[a-zA-Z\s]+$/', $sku)){
 elseif (empty($moq)){
 	$json_error['validation'] = 'MOQ is required';
 	$json_error['massage'] = 'moq missing';
-	$json_error	['code'] = 202;
 	$error = true;
 }
 elseif (!preg_match('/^[1-9][0-9]{0,15}$/', $moq)){
@@ -68,7 +64,6 @@ elseif (empty($categories)){
 	$json_error['validation'] = 'Categories required';
 	$json_error['massage'] = 'Categories categories';
 	$error = true;
-	$json_error	['code'] = 202;
 }
 elseif (!preg_match('/^[a-zA-Z\s]+$/', $categories)){
 	$json_error['validation'] = 'Only Allow Letters And Spaces in categories value';
@@ -77,7 +72,6 @@ elseif (!preg_match('/^[a-zA-Z\s]+$/', $categories)){
 elseif (empty($search_keywords)){
 	$json_error['validation'] = 'Search keywords is required';
 	$json_error['massage'] = 'Search keywords missing';
-	$json_error	['code'] = 202;
 	$error = true;
 }
 elseif (!preg_match('/^[a-zA-Z\s]+$/', $search_keywords)){
@@ -87,7 +81,6 @@ elseif (!preg_match('/^[a-zA-Z\s]+$/', $search_keywords)){
 elseif (empty($price)){
 	$json_error['validation'] = 'Price is required';
 	$json_error['massage'] = 'Price missing';
-	$json_error	['code'] = 202;
 	$error = true;
 
 }
@@ -99,13 +92,11 @@ elseif (!preg_match('/^[1-9][0-9]{0,15}$/', $price)){
 elseif (empty($discount_type)){
 	$json_error['validation'] = 'Select any one option in discount type value';
 	$json_error['massage'] = 'Discount type missing';
-	$json_error	['code'] = 202;
 	$error = true;
 }
 elseif (empty($discount_value)){
 	$json_error['validation'] = 'Discount value is required';
 	$json_error['massage'] = 'Discount value missing';
-	$json_error	['code'] = 202;
 	$error = true;
 }
 elseif (!preg_match('/^[1-9][0-9]{0,15}$/', $discount_value)){
@@ -116,6 +107,7 @@ elseif (!preg_match('/^[1-9][0-9]{0,15}$/', $discount_value)){
 // =================
 
 if ($error){
+	$json_error['code'] = 202;
 	echo json_encode($json_error);
 }
 else

@@ -116,6 +116,14 @@ $(document).ready(function() {
         function(data, status) {
             console.log('data', data);
             console.log('status', status);
+
+            if (data[0]?.code == 200) {
+                window.location.href = "ecommerce.php";
+            }
+            else if (data?.code == 202)
+            {
+               alert("your data has been not submited!!");
+            } 
         });
     });
 });
