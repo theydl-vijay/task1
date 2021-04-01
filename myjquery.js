@@ -79,9 +79,9 @@ $(document).ready(function() {
         }
     })
 
-    // jQuery.validator.addMethod("regexp", function(value,element){
-    //  return this.optional(element) || '/^[a-zA-Z0-9\s]+$/'.test(value);
-    // }, "only Allow This a-z A-Z 0-9 - Validate Word");
+    jQuery.validator.addMethod("regexp", function(value,element){
+     return this.optional(element) || '/^[a-zA-Z0-9\s]+$/'.test(value);
+    }, "only Allow This a-z A-Z 0-9 - Validate Word");
 
     $("#name").keyup(function() {
         var str = $(this).val()
@@ -119,11 +119,9 @@ $(document).ready(function() {
 
             if (data[0]?.code == 200) {
                 window.location.href = "ecommerce.php";
+            } else if (data?.code == 202) {
+                alert("please input all field !!");
             }
-            else if (data?.code == 202)
-            {
-               alert("your data has been not submited!!");
-            } 
         });
     });
 });

@@ -6,6 +6,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
+
 $fetch_query = "SELECT * FROM ecommerce ORDER BY id DESC";
 $raw = sql($fetch_query, $db_connection);
 
@@ -35,6 +37,7 @@ delete('ecommerce', $where, $db_connection);
 		<div class="container-fluid">
 			<h2 class="text-center py-4"> Product List </h2>
 			<a href="details_add.php"><button type="button" class="btn btn-primary my-4">Add New Product</button></a>
+			<a href="report.php"><button type="button" class="btn btn-primary my-4">Report</button></a>
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr class="text-capitalize">
