@@ -4,31 +4,25 @@ include_once('functions.php');
 error_reporting(0);
 
 $raw = '';
+$query_run = '';
+
 
 $report_name = get('select_type');
 
-	if (isset($_POST['submit'])) {
-		
-	if ($report_name == 'Week') {
-		$query_run = "SELECT WEEK(audit_created_date) as type_report, count(id) as entery FROM ecommerce GROUP by WEEK(audit_created_date)";
-		// $raw = sql($query_run, $db_connection);
-	} 
-	elseif ($report_name == 'Month') {
-		$query_run = "SELECT MONTHNAME(audit_created_date) as type_report, count(id) as entery FROM ecommerce GROUP by MONTH(audit_created_date)";
-		// $raw = sql($query_run, $db_connection);
-	} 
-	elseif ($report_name == 'Quarter') {
-		$query_run = "SELECT QUARTER(audit_created_date) as type_report, count(id) as entery FROM ecommerce GROUP by QUARTER(audit_created_date)";
-		// $raw = sql($query_run, $db_connection);
-	}
-	elseif ($report_name == 'Year') {
-		$query_run = "SELECT YEAR(audit_created_date) as type_report, count(id) as entery FROM ecommerce GROUP by QUARTER(audit_created_date)";
-		// $raw = sql($query_run, $db_connection);
-	}
-
-	$raw = sql($query_run, $db_connection);
+if ($report_name == 'Week') {
+	$query_run = "SELECT WEEK(audit_created_date) as type_report, count(id) as entery FROM ecommerce GROUP by WEEK(audit_created_date)";
+} 
+elseif ($report_name == 'Month') {
+	$query_run = "SELECT MONTHNAME(audit_created_date) as type_report, count(id) as entery FROM ecommerce GROUP by MONTH(audit_created_date)";
+} 
+elseif ($report_name == 'Quarter') {
+	$query_run = "SELECT QUARTER(audit_created_date) as type_report, count(id) as entery FROM ecommerce GROUP by QUARTER(audit_created_date)";
+}
+elseif ($report_name == 'Year') {
+	$query_run = "SELECT YEAR(audit_created_date) as type_report, count(id) as entery FROM ecommerce GROUP by YEAR(audit_created_date)";
 }
 
+$raw = sql($query_run, $db_connection);
 
 $report_opt = array("Week","Month","Quarter","Year");
 
@@ -49,16 +43,19 @@ $report_opt = array("Week","Month","Quarter","Year");
 		<div class="container">
 			<h3 class="text-center py-4">Monthely Report</h3>
 			<div>
-			<form method="POST">
+			<form method="get">
 				<select class="form-select w-25" name="select_type">
 					<option selected disabled > Select Report Option </option>
 					<?php
 						foreach ($report_opt as $report) {
 					?>
-					 <option value="<?php echo $report; ?>" <?= (isset($_POST['select_type'])&&$_POST['select_type']==$report)?'selected':'' ?>><?php echo $report; ?></option>
+					 <option value="<?php echo $report; ?>" <?= (isset($report_name) && $report_name == $report)?'selected':'' ?>><?php echo $report; ?></option>
 				<?php } ?>
 				</select>
-				<button type="submit" name="submit" class="btn btn-primary my-2">Submit</button>
+				<div class="d-flex justify-content-between">
+					<button type="submit" class="btn btn-primary my-2">Submit</button>
+					<a href="ecommerce.php"><button type="button" class="btn btn-success float-right my-2">Product List</button></a>
+				</div>
 			</form>
 
 			<table class="table table-striped table-hover my-4">

@@ -6,13 +6,29 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+$page = 15;
+$start = 0;
+$running_page = 1;
 
+if (isset($_GET['page'])) {
+	$start = $_GET['page'];
+	$running_page = $start;
+	$start --;
+	$start = $start * $page;
+}
 
-$fetch_query = "SELECT * FROM ecommerce ORDER BY id DESC";
+$count_query = "SELECT count(*) FROM ecommerce";
+$count_raw = sql($count_query, $db_connection);
+foreach ($count_raw as $id) {
+ 	$total_id = $id['count(*)'];
+}
+$page_count = ceil($total_id/$page);
+
+$fetch_query = "SELECT * FROM ecommerce ORDER BY id DESC LIMIT $start, $page";
 $raw = sql($fetch_query, $db_connection);
 
+// delete ============================
 $id = get('id'); 
-
 $where = "id='$id'";
 delete('ecommerce', $where, $db_connection);
 
@@ -38,6 +54,20 @@ delete('ecommerce', $where, $db_connection);
 			<h2 class="text-center py-4"> Product List </h2>
 			<a href="details_add.php"><button type="button" class="btn btn-primary my-4">Add New Product</button></a>
 			<a href="report.php"><button type="button" class="btn btn-primary my-4">Report</button></a>
+
+			<nav aria-label="Page navigation example">
+				<ul class="pagination">
+					<?php 
+					for ($i=1; $i<=$page_count; $i++){
+						$cur_page = '';
+						if ($running_page == $i) {
+							$cur_page = 'active';
+						}
+					 ?>
+						<li class="page-item <?php echo $cur_page ?>"><a class="page-link" href="?page=<?php echo $i?>"><?php echo $i ?></a></li>
+					<?php } ?>
+				</ul>
+			</nav>
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr class="text-capitalize">
