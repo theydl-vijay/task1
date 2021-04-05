@@ -125,47 +125,5 @@ $(document).ready(function() {
             });
     });
 
-    window.onload = function() {
-        var chart = new CanvasJS.Chart("chartContainer", {
-            data: [{
-                // Change type to "doughnut", "line", "splineArea", etc.
-                type: "column",
-                dataPoints: [{
-                    label: "week 5",
-                    y: 2
-                }, {
-                    label: "week 6",
-                    y: 1
-                },{
-                    label: "week 7",
-                    y: 1
-                },{
-                    label: "week 8",
-                    y: 1
-                },{
-                    label: "week 9",
-                    y: 1
-                },{
-                    label: "week 10",
-                    y: 1
-                },{
-                    label: "week 11",
-                    y: 1
-                },{
-                    label: "week 12",
-                    y: 1
-                },{
-                    label: "week 13",
-                    y: 1
-                },{
-                    label: "week 14",
-                    y: 65
-                },{
-                    label: "week 15 ",
-                    y: 0
-                }]
-            }]
-        });
-        chart.render();
-    }
+    
 });

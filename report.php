@@ -5,6 +5,7 @@ error_reporting(0);
 $raw = '';
 $query_run = '';
 $report_name = get('type');
+
 if ($report_name == 'Week') {
 	$query_run = "SELECT WEEK(audit_created_date) as type, count(id) as entery FROM product GROUP by WEEK(audit_created_date)";
 }
@@ -17,8 +18,11 @@ elseif ($report_name == 'Quarter') {
 elseif ($report_name == 'Year') {
 	$query_run = "SELECT YEAR(audit_created_date) as type, count(id) as entery FROM product GROUP by YEAR(audit_created_date)";
 }
+
 $raw = sql($query_run, $db_connection);
+
 $report_opt = array("Week","Month","Quarter","Year");
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -78,10 +82,37 @@ $report_opt = array("Week","Month","Quarter","Year");
 			</div>
 		</div>
 	</body>
+
+<!--================= script here ================ -->
+
 	<!-- Bootstrap Bundle with Popper -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="jquery.validate.js"></script>
 	<script type="text/javascript" src="myjquery.js"></script>
 	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+	<script>
+	   window.onload = function() {
+	        var chart = new CanvasJS.Chart("chartContainer", {
+	            data: [{
+	                type: "column",
+	                dataPoints: 
+	                [
+	                	<?php
+							foreach ($raw as $raws) {
+								$type = $raws['type'];
+								$entery = $raws['entery'];
+						?>
+		                {
+		                    label: <?php echo json_encode($type); ?>,
+		                    y: <?php echo $entery; ?>,
+		                },
+	   	                <?php } ?>
+	                ]
+	            }]
+	        });
+	        chart.render();
+	    }
+	</script>
 </html>
