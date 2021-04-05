@@ -17,13 +17,13 @@ if (isset($_GET['page'])) {
 	$start = $start * $page;
 }
 
-
 $count_query = "SELECT count(*) as count_id FROM product";
 $count_raw = sql($count_query, $db_connection);
 
 foreach ($count_raw as $id) {
  	$total_id = $id['count_id'];
 }
+
 // $page_count = ceil($total_id/$page);
 
 $pagination = pagination($total_id, $page, $page, $running_page,'ecommerce.php?page=',"");
@@ -94,7 +94,6 @@ delete('product', $where, $db_connection);
 							$discount_type = $raws['discount_type'];
 							$discount_value = $raws['discount_value'];
 						?>
-									
 					<tr>
 						<td><?php echo $id; ?></td>
 						<td><?php echo $name; ?></td>
@@ -127,7 +126,7 @@ delete('product', $where, $db_connection);
 			<div>
 				<nav aria-label="Page navigation example">
 					<ul class="pagination">
-							<li class="page-item m-auto mt-4 <?php echo $cur_page ?>"><?php echo $pagination; ?></a></li>
+							<li class="page-item m-auto my-4 <?php echo $cur_page ?>"><?php echo $pagination; ?></a></li>
 					</ul>
 				</nav>
 			</div>	

@@ -79,8 +79,8 @@ $(document).ready(function() {
         }
     })
 
-    jQuery.validator.addMethod("regexp", function(value,element){
-     return this.optional(element) || '/^[a-zA-Z0-9\s]+$/'.test(value);
+    jQuery.validator.addMethod("regexp", function(value, element) {
+        return this.optional(element) || '/^[a-zA-Z0-9\s]+$/'.test(value);
     }, "only Allow This a-z A-Z 0-9 - Validate Word");
 
     $("#name").keyup(function() {
@@ -102,26 +102,70 @@ $(document).ready(function() {
         var discount_value = $("#discount_value").val();
 
         $.post("api_insert.php", {
-            name: name,
-            slug: slug,
-            sku: sku,
-            moq: moq,
-            categories: categories,
-            search_keywords: search_keywords,
-            price: price,
-            discount_type: discount_type,
-            discount_value: discount_value
-        },
+                name: name,
+                slug: slug,
+                sku: sku,
+                moq: moq,
+                categories: categories,
+                search_keywords: search_keywords,
+                price: price,
+                discount_type: discount_type,
+                discount_value: discount_value
+            },
 
-        function(data, status) {
-            console.log('data', data);
-            console.log('status', status);
+            function(data, status) {
+                console.log('data', data);
+                console.log('status', status);
 
-            if (data[0]?.code == 200) {
-                window.location.href = "ecommerce.php";
-            } else if (data?.code == 202) {
-                alert("please input all field !!");
-            }
-        });
+                if (data[0]?.code == 200) {
+                    window.location.href = "ecommerce.php";
+                } else if (data?.code == 202) {
+                    alert("please input all field !!");
+                }
+            });
     });
+
+    window.onload = function() {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            data: [{
+                // Change type to "doughnut", "line", "splineArea", etc.
+                type: "column",
+                dataPoints: [{
+                    label: "week 5",
+                    y: 2
+                }, {
+                    label: "week 6",
+                    y: 1
+                },{
+                    label: "week 7",
+                    y: 1
+                },{
+                    label: "week 8",
+                    y: 1
+                },{
+                    label: "week 9",
+                    y: 1
+                },{
+                    label: "week 10",
+                    y: 1
+                },{
+                    label: "week 11",
+                    y: 1
+                },{
+                    label: "week 12",
+                    y: 1
+                },{
+                    label: "week 13",
+                    y: 1
+                },{
+                    label: "week 14",
+                    y: 65
+                },{
+                    label: "week 15 ",
+                    y: 0
+                }]
+            }]
+        });
+        chart.render();
+    }
 });

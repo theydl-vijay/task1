@@ -2,30 +2,23 @@
 include_once('db_connection.php');
 include_once('functions.php');
 error_reporting(0);
-
 $raw = '';
 $query_run = '';
-
-
 $report_name = get('type');
-
 if ($report_name == 'Week') {
 	$query_run = "SELECT WEEK(audit_created_date) as type, count(id) as entery FROM product GROUP by WEEK(audit_created_date)";
-} 
+}
 elseif ($report_name == 'Month') {
 	$query_run = "SELECT MONTHNAME(audit_created_date) as type, count(id) as entery FROM product GROUP by MONTH(audit_created_date)";
-} 
+}
 elseif ($report_name == 'Quarter') {
 	$query_run = "SELECT QUARTER(audit_created_date) as type, count(id) as entery FROM product GROUP by QUARTER(audit_created_date)";
 }
 elseif ($report_name == 'Year') {
 	$query_run = "SELECT YEAR(audit_created_date) as type, count(id) as entery FROM product GROUP by YEAR(audit_created_date)";
 }
-
 $raw = sql($query_run, $db_connection);
-
 $report_opt = array("Week","Month","Quarter","Year");
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -42,42 +35,47 @@ $report_opt = array("Week","Month","Quarter","Year");
 	<body>
 		<div class="container">
 			<h3 class="text-center py-4">Monthely Report</h3>
-			<div>
-			<form method="get">
-				<select class="form-select w-25" name="type">
-					<option selected disabled > Select Report Option </option>
-					<?php
-						foreach ($report_opt as $report) {
-					?>
-					 <option value="<?php echo $report; ?>" <?= (isset($report_name) && $report_name == $report)?'selected':'' ?>><?php echo $report; ?></option>
-				<?php } ?>
-				</select>
-				<div class="d-flex justify-content-between">
-					<button type="submit" class="btn btn-primary my-2">Submit</button>
-					<a href="ecommerce.php"><button type="button" class="btn btn-success float-right my-2">Product List</button></a>
+			<div class="row">
+				<form method="get">
+					<select class="form-select w-25" name="type">
+						<option selected disabled > Select Report Option </option>
+						<?php
+							foreach ($report_opt as $report) {
+						?>
+						<option value="<?php echo $report; ?>" <?= (isset($report_name) && $report_name == $report)?'selected':'' ?>><?php echo $report; ?></option>
+						<?php } ?>
+					</select>
+					<div class="d-flex justify-content-between">
+						<button type="submit" class="btn btn-primary my-2">Submit</button>
+						<a href="ecommerce.php"><button type="button" class="btn btn-success float-right my-2">Product List</button></a>
+					</div>
+				</form>
+				<div class="col-md-6 my-4">
+					<table class="table table-striped table-hover">
+						<thead>
+							<tr class="text-capitalize">
+								<th scope="col">Type</th>
+								<th scope="col">total entery</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+							foreach ($raw as $raws) {
+								$type = $raws['type'];
+								$entery = $raws['entery'];
+							?>
+							<tr>
+								<td><?php echo $type; ?></td>
+								<td><?php echo $entery; ?></td>
+							</tr>
+							<?php } ?>
+						</tbody>
+					</table>
 				</div>
-			</form>
-
-			<table class="table table-striped table-hover my-4">
-				<thead>
-					<tr class="text-capitalize">
-						<th scope="col">Type</th>
-						<th scope="col">total entery</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php
-					foreach ($raw as $raws) {
-						$type = $raws['type'];
-						$entery = $raws['entery'];
-					?>
-					<tr>
-						<td><?php echo $type; ?></td>
-						<td><?php echo $entery; ?></td>
-					</tr>
-					<?php } ?>
-				</tbody>
-			</table>
+				<div class="col-md-6 my-5">
+					<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+				</div>
+			</div>
 		</div>
 	</body>
 	<!-- Bootstrap Bundle with Popper -->
@@ -85,6 +83,5 @@ $report_opt = array("Week","Month","Quarter","Year");
 	<script type="text/javascript" src="jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="jquery.validate.js"></script>
 	<script type="text/javascript" src="myjquery.js"></script>
-
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </html>
-
