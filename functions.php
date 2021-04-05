@@ -813,8 +813,8 @@ function pagination($total, $offset, $limit, $page, $link='', $link_param=""){
         }
         $back = $page-1;
         $next = $page+1;
-        $back_link = $link.'/'.$back;
-        $next_link = $link.'/'.$next;
+        $back_link = $link.''.$back;
+        $next_link = $link.''.$next;
         $page_avail = false;
         if(strpos($link, '{{page}}')){
             $page_avail = true;
@@ -831,7 +831,7 @@ function pagination($total, $offset, $limit, $page, $link='', $link_param=""){
                 $response .= '      <li class="page-item"><a class="page-link">&lt; &nbsp; Back</a></li>';  
             }
             foreach($page_to_be_displaied as $value){
-                $response .= '      <li class="page-item '.($value==$page?'active':'').'"><a class="page-link" href="'.($page_avail?str_replace('{{page}}', $value, $link):($link.'/'.$value)).'">'.$value.'</a></li>';
+                $response .= '      <li class="page-item '.($value==$page?'active':'').'"><a class="page-link" href="'.($page_avail?str_replace('{{page}}', $value, $link):($link.''.$value)).'">'.$value.'</a></li>';
             }
             if($display_last_pages){
                 $response .= '<li class="page-item">&nbsp;...&nbsp;</li>';
@@ -842,7 +842,7 @@ function pagination($total, $offset, $limit, $page, $link='', $link_param=""){
                         $response .= '<li class="page-item">&nbsp;...&nbsp;</li>';
                     }
                     else{
-                        $response .= '      <li class="page-item '.($value==$page?'active':'').'"><a class="page-link" href="'.($page_avail?str_replace('{{page}}', $value, $link):($link.'/'.$value)).'">'.$value.'</a></li>';
+                        $response .= '      <li class="page-item '.($value==$page?'active':'').'"><a class="page-link" href="'.($page_avail?str_replace('{{page}}', $value, $link):($link.''.$value)).'">'.$value.'</a></li>';
                     }
                 }
             }

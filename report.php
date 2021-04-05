@@ -7,19 +7,19 @@ $raw = '';
 $query_run = '';
 
 
-$report_name = get('select_type');
+$report_name = get('type');
 
 if ($report_name == 'Week') {
-	$query_run = "SELECT WEEK(audit_created_date) as type_report, count(id) as entery FROM ecommerce GROUP by WEEK(audit_created_date)";
+	$query_run = "SELECT WEEK(audit_created_date) as type, count(id) as entery FROM product GROUP by WEEK(audit_created_date)";
 } 
 elseif ($report_name == 'Month') {
-	$query_run = "SELECT MONTHNAME(audit_created_date) as type_report, count(id) as entery FROM ecommerce GROUP by MONTH(audit_created_date)";
+	$query_run = "SELECT MONTHNAME(audit_created_date) as type, count(id) as entery FROM product GROUP by MONTH(audit_created_date)";
 } 
 elseif ($report_name == 'Quarter') {
-	$query_run = "SELECT QUARTER(audit_created_date) as type_report, count(id) as entery FROM ecommerce GROUP by QUARTER(audit_created_date)";
+	$query_run = "SELECT QUARTER(audit_created_date) as type, count(id) as entery FROM product GROUP by QUARTER(audit_created_date)";
 }
 elseif ($report_name == 'Year') {
-	$query_run = "SELECT YEAR(audit_created_date) as type_report, count(id) as entery FROM ecommerce GROUP by YEAR(audit_created_date)";
+	$query_run = "SELECT YEAR(audit_created_date) as type, count(id) as entery FROM product GROUP by YEAR(audit_created_date)";
 }
 
 $raw = sql($query_run, $db_connection);
@@ -44,7 +44,7 @@ $report_opt = array("Week","Month","Quarter","Year");
 			<h3 class="text-center py-4">Monthely Report</h3>
 			<div>
 			<form method="get">
-				<select class="form-select w-25" name="select_type">
+				<select class="form-select w-25" name="type">
 					<option selected disabled > Select Report Option </option>
 					<?php
 						foreach ($report_opt as $report) {
@@ -68,11 +68,11 @@ $report_opt = array("Week","Month","Quarter","Year");
 				<tbody>
 					<?php
 					foreach ($raw as $raws) {
-						$type_report = $raws['type_report'];
+						$type = $raws['type'];
 						$entery = $raws['entery'];
 					?>
 					<tr>
-						<td><?php echo $type_report; ?></td>
+						<td><?php echo $type; ?></td>
 						<td><?php echo $entery; ?></td>
 					</tr>
 					<?php } ?>
@@ -87,3 +87,4 @@ $report_opt = array("Week","Month","Quarter","Year");
 	<script type="text/javascript" src="myjquery.js"></script>
 
 </html>
+

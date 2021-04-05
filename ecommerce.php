@@ -4,33 +4,37 @@ include_once('functions.php');
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(0);
 
-$page = 15;
+$page = 5;
 $start = 0;
 $running_page = 1;
 
 if (isset($_GET['page'])) {
-	$start = $_GET['page'];
+	$start = get('page');
 	$running_page = $start;
 	$start --;
 	$start = $start * $page;
 }
 
-$count_query = "SELECT count(*) FROM ecommerce";
-$count_raw = sql($count_query, $db_connection);
-foreach ($count_raw as $id) {
- 	$total_id = $id['count(*)'];
-}
-$page_count = ceil($total_id/$page);
 
-$fetch_query = "SELECT * FROM ecommerce ORDER BY id DESC LIMIT $start, $page";
+$count_query = "SELECT count(*) as count_id FROM product";
+$count_raw = sql($count_query, $db_connection);
+
+foreach ($count_raw as $id) {
+ 	$total_id = $id['count_id'];
+}
+// $page_count = ceil($total_id/$page);
+
+$pagination = pagination($total_id, $page, $page, $running_page,'ecommerce.php?page=',"");
+
+$fetch_query = "SELECT * FROM product ORDER BY id DESC LIMIT $start, $page";
 $raw = sql($fetch_query, $db_connection);
 
 // delete ============================
 $id = get('id'); 
 $where = "id='$id'";
-delete('ecommerce', $where, $db_connection);
+delete('product', $where, $db_connection);
 
 ?>
 <!doctype html>
@@ -51,24 +55,15 @@ delete('ecommerce', $where, $db_connection);
 	<body>
 		
 		<div class="container-fluid">
-			<h2 class="text-center py-4"> Product List </h2>
-			<a href="details_add.php"><button type="button" class="btn btn-primary my-4">Add New Product</button></a>
-			<a href="report.php"><button type="button" class="btn btn-primary my-4">Report</button></a>
-
-			<nav aria-label="Page navigation example">
-				<ul class="pagination">
-					<?php 
-					for ($i=1; $i<=$page_count; $i++){
-						$cur_page = '';
-						if ($running_page == $i) {
-							$cur_page = 'active';
-						}
-					 ?>
-						<li class="page-item <?php echo $cur_page ?>"><a class="page-link" href="?page=<?php echo $i?>"><?php echo $i ?></a></li>
-					<?php } ?>
-				</ul>
-			</nav>
+			<div>
+				<h2 class="text-center py-4"> Product List </h2>
+				<a href="details_add.php"><button type="button" class="btn btn-primary my-4">Add New Product</button></a>
+				<a href="report.php"><button type="button" class="btn btn-primary my-4">Report</button></a>
+			</div>
 			<table class="table table-striped table-hover">
+				<?php
+					if (count($raw) > 0 || count($start) < 0) { 
+				?>
 				<thead>
 					<tr class="text-capitalize">
 						<th scope="col">id</th>
@@ -87,18 +82,19 @@ delete('ecommerce', $where, $db_connection);
 				</thead>
 				<tbody>
 					<?php
-					foreach ($raw as $raws) {
-						$id = $raws['id'];
-						$name = $raws['name'];
-						$slug = $raws['slug'];
-						$sku = $raws['sku'];
-						$moq = $raws['moq'];
-						$categories = $raws['categories'];
-						$search_keywords = $raws['search_keywords'];
-						$price = $raws['price'];
-						$discount_type = $raws['discount_type'];
-						$discount_value = $raws['discount_value'];
-					?>
+						foreach ($raw as $raws) {
+							$id = $raws['id'];
+							$name = $raws['name'];
+							$slug = $raws['slug'];
+							$sku = $raws['sku'];
+							$moq = $raws['moq'];
+							$categories = $raws['categories'];
+							$search_keywords = $raws['search_keywords'];
+							$price = $raws['price'];
+							$discount_type = $raws['discount_type'];
+							$discount_value = $raws['discount_value'];
+						?>
+									
 					<tr>
 						<td><?php echo $id; ?></td>
 						<td><?php echo $name; ?></td>
@@ -117,9 +113,24 @@ delete('ecommerce', $where, $db_connection);
 	                        <a href="ecommerce.php?id=<?php echo $raws['id'];?>"><button type="submit" name="delete_btn" class="btn btn-info"><i class="fas fa-trash text-gray-dark"></i></button></a>
                         </td>
 					</tr>
-				<?php } ?>
+				<?php 
+						} 
+					} 
+					else { 
+						echo "<div class='alert alert-danger text-center text-truncate w-25 m-auto' role='alert'>
+							Record Not Found !!
+						</div>";
+					}
+				?>
 				</tbody>
 			</table>
+			<div>
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+							<li class="page-item m-auto mt-4 <?php echo $cur_page ?>"><?php echo $pagination; ?></a></li>
+					</ul>
+				</nav>
+			</div>	
 		</div>
 		<!-- Bootstrap Bundle with Popper -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>

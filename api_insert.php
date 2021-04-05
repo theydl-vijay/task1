@@ -123,7 +123,7 @@ else
 	$p_data['discount_type'] = $discount_type;
 	$p_data['discount_value'] = $discount_value;
 
-	$insert_data = insert('ecommerce', $p_data, $db_connection);
+	$insert_data = insert('product', $p_data, $db_connection);
 
 	if ($insert_data) {
 		echo json_encode(array($json_creat));

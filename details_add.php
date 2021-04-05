@@ -37,7 +37,7 @@ $discount_value = get('discount_value');
 
 if ($id) {
 
-	$fetch_data = "SELECT * FROM ecommerce WHERE id='$id'";
+	$fetch_data = "SELECT * FROM product WHERE id='$id'";
 	$raw = sql($fetch_data, $db_connection);
 
 	foreach ($raw as $raws) {
@@ -193,7 +193,7 @@ if (isset($_POST['submit']))
 		if($id)
 		{
 			$where = "id='$id'";
-			$update_data = update('ecommerce', $where, $data, $asIs = "", $db_connection);
+			$update_data = update('product', $where, $data, $asIs = "", $db_connection);
 
 			if ($update_data) 
 			{
@@ -202,7 +202,7 @@ if (isset($_POST['submit']))
 		}
 		else
 		{	
-			$insert_data = insert('ecommerce', $data, $db_connection);
+			$insert_data = insert('product', $data, $db_connection);
 
 			if ($insert_data) 
 			{
