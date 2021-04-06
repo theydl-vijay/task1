@@ -38,7 +38,7 @@ $discount_value = get('discount_value');
 if ($id) {
 
 	$fetch_data = "SELECT * FROM product WHERE id='$id'";
-	$raw = sql($fetch_data, $db_connection);
+	$raw = sql($fetch_data);
 
 	foreach ($raw as $raws) {
 		$id = $raws['id'];
@@ -193,7 +193,7 @@ if (isset($_POST['submit']))
 		if($id)
 		{
 			$where = "id='$id'";
-			$update_data = update('product', $where, $data, $asIs = "", $db_connection);
+			$update_data = update('product', $where, $data, $asIs = "");
 
 			if ($update_data) 
 			{
@@ -202,7 +202,7 @@ if (isset($_POST['submit']))
 		}
 		else
 		{	
-			$insert_data = insert('product', $data, $db_connection);
+			$insert_data = insert('product', $data);
 
 			if ($insert_data) 
 			{
@@ -221,6 +221,8 @@ if (isset($_POST['submit']))
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- Bootstrap CSS -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+		
 		<title>Ecommerce - Details Add</title>
 
 		<style>
@@ -322,15 +324,16 @@ if (isset($_POST['submit']))
 				</div>
 				<button type='submit' id="submit" name='submit' class='btn btn-danger'>Save Here</button>
 				<button type="button" name="Ajax_submit" id="ajaxbtn" class='btn btn-primary'>Ajax btn</button>
-
 			</form>
-			
 		</div>
-		<!-- Bootstrap Bundle with Popper -->
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-		<script type="text/javascript" src="jquery-3.6.0.min.js"></script>
-		<script type="text/javascript" src="jquery.validate.js"></script>
-		<script type="text/javascript" src="myjquery.js"></script>
-
 	</body>
+	<!--================= script here ================ -->
+
+	<!-- Bootstrap Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="jquery.validate.js"></script>
+	<script type="text/javascript" src="myjquery.js"></script>
+	
+
 </html>

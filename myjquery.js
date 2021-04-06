@@ -88,7 +88,7 @@ $(document).ready(function() {
         var trims = $.trim(str)
         var slug = trims.replace(/a-z A-Z 0-9 -/, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')
         $("#slug").val(slug.toLowerCase())
-    })
+    });
 
     $("#ajaxbtn").click(function(event) {
         var name = $("#name").val();
@@ -117,13 +117,11 @@ $(document).ready(function() {
                 console.log('data', data);
                 console.log('status', status);
 
-                if (data[0]?.code == 200) {
+                if (data[0] ?.code == 200) {
                     window.location.href = "ecommerce.php";
-                } else if (data?.code == 202) {
+                } else if (data ?.code == 202) {
                     alert("please input all field !!");
                 }
             });
     });
-
-    
 });

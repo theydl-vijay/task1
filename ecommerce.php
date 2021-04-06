@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(0);
 
-$page = 5;
+$page = 10;
 $start = 0;
 $running_page = 1;
 
@@ -18,7 +18,7 @@ if (isset($_GET['page'])) {
 }
 
 $count_query = "SELECT count(*) as count_id FROM product";
-$count_raw = sql($count_query, $db_connection);
+$count_raw = sql($count_query);
 
 foreach ($count_raw as $id) {
  	$total_id = $id['count_id'];
@@ -29,12 +29,12 @@ foreach ($count_raw as $id) {
 $pagination = pagination($total_id, $page, $page, $running_page,'ecommerce.php?page=',"");
 
 $fetch_query = "SELECT * FROM product ORDER BY id DESC LIMIT $start, $page";
-$raw = sql($fetch_query, $db_connection);
+$raw = sql($fetch_query);
 
 // delete ============================
 $id = get('id'); 
 $where = "id='$id'";
-delete('product', $where, $db_connection);
+delete('product', $where);
 
 ?>
 <!doctype html>
@@ -50,15 +50,26 @@ delete('product', $where, $db_connection);
 		<!-- fontawesome -->
 		<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
+		<!-- jQuery UI -->
+ 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 		<title>Ecommerce - Data list</title>
 	</head>
 	<body>
 		
 		<div class="container-fluid">
-			<div>
-				<h2 class="text-center py-4"> Product List </h2>
-				<a href="details_add.php"><button type="button" class="btn btn-primary my-4">Add New Product</button></a>
-				<a href="report.php"><button type="button" class="btn btn-primary my-4">Report</button></a>
+			<h2 class="text-center py-4"> Product List </h2>
+			<div class="row">
+				<div class="col-md-4 my-4">
+					<a href="details_add.php"><button type="button" class="btn btn-primary">Add New Product</button></a>
+					<a href="report.php"><button type="button" class="btn btn-primary">Report</button></a>
+				</div>
+				<div class="col-md-4 my-4">
+					<div class="input-group">
+					  <input type="search" id="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+					  <button type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+					</div>
+				</div>
 			</div>
 			<table class="table table-striped table-hover">
 				<?php
@@ -134,5 +145,28 @@ delete('product', $where, $db_connection);
 		<!-- Bootstrap Bundle with Popper -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	  	<script>
+	  		window.onload = function() {
+	        $("#search").autocomplete({
+	            source: function(request, response) {
+	                $.ajax({
+	                    url: "autocomplete.php",
+	                    dataType: "json",
+	                    data: {
+	                        term: request.term
+	                    },
+	                    success: function(data) {
+	                        response(data);
+	                    }
+	                });
+	            },
+	            select: function(event, ui) {
+	                log("Selected: " + ui.item.value + " aka " + ui.item.id);
+	            }
+	        });
+	    };
+	  	</script>
 	</body>
 </html>

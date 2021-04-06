@@ -1,26 +1,39 @@
 <?php
+
 include_once('db_connection.php');
 include_once('functions.php');
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 error_reporting(0);
+
 $raw = '';
 $query_run = '';
 $report_name = get('type');
 
 if ($report_name == 'Week') {
 	$query_run = "SELECT WEEK(audit_created_date) as type, count(id) as entery FROM product GROUP by WEEK(audit_created_date)";
+	$raw = sql($query_run);
+
 }
 elseif ($report_name == 'Month') {
 	$query_run = "SELECT MONTHNAME(audit_created_date) as type, count(id) as entery FROM product GROUP by MONTH(audit_created_date)";
+	$raw = sql($query_run);
+
 }
 elseif ($report_name == 'Quarter') {
 	$query_run = "SELECT QUARTER(audit_created_date) as type, count(id) as entery FROM product GROUP by QUARTER(audit_created_date)";
+	$raw = sql($query_run);
+
 }
 elseif ($report_name == 'Year') {
 	$query_run = "SELECT YEAR(audit_created_date) as type, count(id) as entery FROM product GROUP by YEAR(audit_created_date)";
+	$raw = sql($query_run);
+
 }
-
-$raw = sql($query_run, $db_connection);
-
+else{
+	// echo 'query not run';
+}
 $report_opt = array("Week","Month","Quarter","Year");
 
 ?>
