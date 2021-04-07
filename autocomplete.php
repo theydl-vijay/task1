@@ -11,8 +11,8 @@ if (isset($_GET['term'])) {
 
 	$search = get('term');
 
-	$query = "SELECT * FROM product WHERE name LIKE '%{$search}%' LIMIT 10";
-	($result = sql($query));
+	$query = "SELECT id, name FROM product WHERE name LIKE '%{$search}%' GROUP BY name HAVING COUNT(name) > 0  LIMIT 10";
+	$result = sql($query);
 
 	$response = array();
 	foreach ($result as $data) {
@@ -24,5 +24,6 @@ if (isset($_GET['term'])) {
 	
 	echo json_encode($response);
 }
+
 
 ?>

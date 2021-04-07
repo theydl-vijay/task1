@@ -157,11 +157,13 @@ delete('product', $where);
 	                    data: {
 	                        term: request.term
 	                    },
+
 	                    success: function(data) {
 	                        response(data);
 	                    }
 	                });
 	            },
+	            minLength: 2,
 	            select: function(event, ui) {
 	                log("Selected: " + ui.item.value + " aka " + ui.item.id);
 	            }

@@ -9,6 +9,7 @@ error_reporting(0);
 
 $raw = '';
 $query_run = '';
+
 $report_name = get('type');
 
 if ($report_name == 'Week') {
@@ -82,8 +83,18 @@ $report_opt = array("Week","Month","Quarter","Year");
 								$entery = $raws['entery'];
 							?>
 							<tr>
-								<td><?php echo $type; ?></td>
-								<td><?php echo $entery; ?></td>
+
+								<?php 
+									if ($report_name == 'Week') {
+										echo "<td> Week "."$type</td>
+											  <td> $entery </td>";
+									}
+									else{
+
+										echo"<td> $type </td>
+											<td> $entery </td>";
+									}
+								?>
 							</tr>
 							<?php } ?>
 						</tbody>
@@ -117,10 +128,22 @@ $report_opt = array("Week","Month","Quarter","Year");
 								$type = $raws['type'];
 								$entery = $raws['entery'];
 						?>
-		                {
-		                    label: <?php echo json_encode($type); ?>,
-		                    y: <?php echo $entery; ?>,
+		                {	
+		                	<?php
+		                		$week_graph = json_encode("week"." ".$type);
+		                		$comman_graph = json_encode($type);
+
+			                	if ($report_name == 'Week') {
+			                		echo "label: $week_graph,
+			                    		  y:  $entery,";
+			                	}
+			                	else{
+			                		echo "label: $comman_graph,
+			                    		  y:  $entery,";
+			                	}
+		                	?>
 		                },
+
 	   	                <?php } ?>
 	                ]
 	            }]
