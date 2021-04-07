@@ -6,6 +6,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(0);
 
+// pagination ===============================
+
 $page = 10;
 $start = 0;
 $running_page = 1;
@@ -26,7 +28,11 @@ foreach ($count_raw as $id) {
 
 // $page_count = ceil($total_id/$page);
 
+// pagination function =-=-=-=-=-=-=-=-=-=
+
 $pagination = pagination($total_id, $page, $page, $running_page,'ecommerce.php?page=',"");
+
+// fetch query ========================
 
 $fetch_query = "SELECT * FROM product ORDER BY id DESC LIMIT $start, $page";
 $raw = sql($fetch_query);
@@ -35,6 +41,15 @@ $raw = sql($fetch_query);
 $id = get('id'); 
 $where = "id='$id'";
 delete('product', $where);
+
+//  Cookies ==========================
+
+$search_cookie = 'search_data';
+if (isset($_REQUEST['search_btn'])) {
+	$cookie_value = $_REQUEST['search_box'];
+	$cookie_exp = time()+3600;
+	setcookie($search_cookie, $cookie_value, $cookie_exp);	
+}
 
 ?>
 <!doctype html>
@@ -66,8 +81,8 @@ delete('product', $where);
 				</div>
 				<div class="col-md-4 my-4">
 					<div class="input-group">
-					  <input type="search" id="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-					  <button type="button" class="btn btn-primary"><i class="fas fa-search"></i></button>
+					  <input type="text" id="search" name="search_box" class="form-control rounded" placeholder="Search">
+					  <button type="submit" name="search_btn" class="btn btn-primary"><i class="fas fa-search"></i></button>
 					</div>
 				</div>
 			</div>
